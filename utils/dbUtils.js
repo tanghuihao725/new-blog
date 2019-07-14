@@ -13,8 +13,8 @@ function toString(target){
     return typeof target === 'string' ? `'${target}'` : target
 }
 
-// 检查对象条件是否在表中出现
-dbUtils.hasExist = function(obj, tableName, method='and'){
+// 以对象为条件 查询数据
+dbUtils.findAll = function(obj, tableName, method='and'){
     const sqlArray = []
     Object.keys(obj).forEach(key => {
         if(obj[key]!=='' && obj[key]!==undefined && obj[key]!==null){

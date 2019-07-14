@@ -23,8 +23,8 @@ router.get('/test', (req, res) => {
  *  */
 router.post('/register', (req, res) => {
     // 用手机号作为是否注册资源
-    const telephone = req.body.telephone
-    utils.hasExist({ telephone, isdelete: 0 }, 'users')
+    const { telephone } = req.body
+    utils.findAll({ telephone }, 'users')
         .then(data => {
             if (data) {
                 res.status(400).json({ msg: '该手机号已经被注册' })
@@ -82,21 +82,19 @@ router.get('/query', (req, res) => {
 router.post('/update', (req, res) => {
     const id = req.query.id
     const telephone = req.body.telephone
-    // 检测新的电话是否和其他人的电话重复
-    const sql = `select * from users where id <> ${id} and telephone = ${telephone}`
-    db.connect(sql).then(data => {
-        if (data.length > 0) {
-            res.status(400).json({ msg: '该手机号已经被注册' })
-        } else {
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                if (err) throw err
-                // hash为加密后的密码
-                req.body.password = hash
-                db.connect(utils.updateObjToSql(req.body, 'users', `id = ${id}`))
-                    .then(() => res.json({ id: req.query.id, msg: '更新成功' })).catch(() => res.status(400).json({ msg: '更新失败' }))
-            })
-        }
-    })
+    
+    if(req.body&&req.body.password){
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+            if (err) throw err
+            // hash为加密后的密码
+            req.body.password = hash
+            db.connect(utils.updateObjToSql(req.body, 'users', `id = ${id}`))
+                .then(() => res.json({ id: req.query.id, msg: '更新成功' })).catch(() => res.status(400).json({ msg: '更新失败' }))
+        })
+    }else{
+        db.connect(utils.updateObjToSql(req.body, 'users', `id = ${id}`))
+                .then(() => res.json({ id: req.query.id, msg: '更新成功' })).catch(() => res.status(400).json({ msg: '更新失败' }))
+    }
 
 })
 
@@ -106,19 +104,21 @@ router.post('/update', (req, res) => {
 router.post('/login', (req, res) => {
     const { telephone, password } = req.body
     // 查找是否有手机号注册的信息
-    utils.hasExist({ telephone }, 'users')
+    utils.findAll({ telephone }, 'users')
         .then(result => {
             if (!result) {
                 // 未找到手机号帐号信息
-                res.status(400).json({ msg: '该手机号未注册', code: 'A0001' })
+                res.status(401).send({ msg: '该手机号未注册', code: 'A0001' })
             } else {
                 // 找到帐号信息后，验证密码是否正确
                 bcrypt.compare(password, result[0].password, (err, compareRes) => {
                     if (err) throw err
                     // 密码错误
                     if (compareRes === false) {
-                        res.status(400).json({ msg: "密码错误", code: 'A0002' })
+                        res.status(401).json({ msg: "密码错误", code: 'A0002' })
                     } else {
+                        if(result[0].isDelete === 1)
+                            res.status(403).json({msg:"账号已停用,请与管理员联系",code:'A0003'})
                         // 密码正确 设置token
                         const rule = { id: result[0].id }
                         jwt.sign(rule, 'secret', { expiresIn: 604800 }, (err, token) => {

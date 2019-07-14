@@ -1,31 +1,44 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <userStatus/>
+      <router-link to="/">Home</router-link>|
+      <router-link to="/about">About{{$store.state.isMobile?"Phone":"PC"}}</router-link>|
+      <router-link to="/users">用户管理</router-link>
     </div>
-    <router-view/>
+    <userDialog/>
+    <button @click="setUserDialog(true)">open</button>
+    {{$store.state.user.showUserDialog}}
+    <router-view />
   </div>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+import userDialog from './views/components/userLogin/index.vue'
+import userStatus from './views/components/userStatus.vue'
+export default {
+  mounted(){
+    // 根据localStorage的值获取用户信息
+    this.initCurrent()
+  },
+  computed:{
+    ...mapGetters('user',['getUserDialogStatu'])
+  },
+  methods:{
+    ...mapMutations('user',['setUserDialog']),
+    ...mapActions('user',['initCurrent'])
+  },
+  components:{
+    userDialog,userStatus
+  }
 }
-#nav {
-  padding: 30px;
-}
+</script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+<style lang="less">
+
 </style>
+
+
+
