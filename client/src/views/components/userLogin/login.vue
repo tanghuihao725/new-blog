@@ -30,6 +30,8 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
+import constant from '../../../utils/constant'
+
 export default {
   data() {
     return {
@@ -64,10 +66,12 @@ export default {
     handleLogin(formName) {
       this.$refs[formName].validate(valid => {
         if (!valid) return false;
+        this.ruleForm.uploadConfig = constant.uploadConfig
         this.login({ data: this.ruleForm })
           .then(res => {
             const user = res.data.data;
             localStorage.blogToken = res.data.token;
+            localStorage.uploadToken = res.data.uploadToken;
             this.setUserDialog(false);
             this.setUserCurrent(user);
             this.$notify.success({

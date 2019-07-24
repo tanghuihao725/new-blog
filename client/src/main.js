@@ -17,7 +17,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 
 // Bmob
-Bmob.initialize('ac49817a1802b4ff','920725')
+Bmob.initialize('ac49817a1802b4ff','920725','687925cf8424c526aac1fc7f22a7b622')
 Vue.prototype.Bmob = Bmob
 Bmob.User.login('tanghuihao','mipiacenon')
 

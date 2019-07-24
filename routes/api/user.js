@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken")
 const passport = require('passport')
 
 const utils = require('../../utils/dbUtils')
-
+const getUploadToken = require('../../utils/qiniu')
 /**
  * 测试用 
  * */
@@ -102,7 +102,8 @@ router.post('/update', (req, res) => {
  * 登陆
  *  */
 router.post('/login', (req, res) => {
-    const { telephone, password } = req.body
+    const { telephone, password, uploadConfig={} } = req.body
+    const { accessKey, secretKey, bucket } = uploadConfig
     // 查找是否有手机号注册的信息
     utils.findAll({ telephone }, 'users')
         .then(result => {
@@ -127,6 +128,7 @@ router.post('/login', (req, res) => {
                             res.json({
                                 msg: "登陆成功",
                                 token: `Bearer ${token}`,
+                                uploadToken: getUploadToken(accessKey,secretKey,bucket),
                                 data: result[0]
                             })
                         })

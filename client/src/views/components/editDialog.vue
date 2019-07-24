@@ -4,6 +4,12 @@ title="编辑用户"
 :visible.sync="$store.state.user.userManagement.editDialogVisible"
 @open='handleOpen'
 >
+<div class="avatar" @click="handleClick()">
+  <img :src="ruleForm.avator">
+</div>
+
+<input type="file" id="avatar-upload">
+
 <div class="form-container">
   <el-form
     :model="ruleForm"
@@ -80,6 +86,7 @@ export default {
   methods:{
       ...mapMutations("user/userManagement",["showEditDialog"]),
       ...mapActions('user/userManagement',['updateUser']),
+      ...mapActions(['uploadFile']),
       submitForm(){
           this.updateUser({params:{id:this.getEditorUserInfo.id},
           data:this.ruleForm})
@@ -93,6 +100,21 @@ export default {
       handleOpen(){
         const {createdAt,updatedAt,password,...others} = this.getEditorUserInfo
         this.ruleForm = others
+      },
+      handleClick(){
+        const uploader = document.getElementById('avatar-upload')
+        uploader.onchange = ()=>{
+          const avatar = uploader.files[0]
+          const filename = `${parseInt(Date.now())}`
+          this.uploadFile({file:avatar,key:filename})
+            .then(res=>{
+              console.log(res)
+              this.ruleForm.avator = `http://puq44g7gw.bkt.clouddn.com/${filename}`
+            })
+            .catch(err=>console.log(err))
+        }
+        uploader.click()
+        
       }
   }
 };
@@ -101,6 +123,22 @@ export default {
 <style lang="less" scoped>
 .form-container{
   padding: 0 50px;
+}
+.avatar{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  border: 2px solid #aaa;
+  overflow: hidden;
+  margin: 20px auto;
+  cursor: pointer;
+  img{
+    width:100%;
+    height: 100%;
+  }
+}
+#avatar-upload{
+  display: none;
 }
 </style>
 
