@@ -14,12 +14,12 @@ const getUploadToken = require('../../utils/qiniu')
  * 测试用 
  * */
 router.get('/test', (req, res) => {
-    res.json({ msg: 'test works' })
+    res.json({ msg: 'Users work!' })
 })
 
 // $route POST /user/register
 /**
- * 注册
+ * 注册用户
  *  */
 router.post('/register', (req, res) => {
     // 用手机号作为是否注册资源
@@ -45,7 +45,7 @@ router.post('/register', (req, res) => {
         })
 })
 /**
- * 注销
+ * 注销用户
  *  */
 router.get('/unregister', passport.authenticate("jwt", { session: false }), (req, res) => {
     // query/type  0 假删除 1 真删除 不传值为0
@@ -99,7 +99,7 @@ router.post('/update', (req, res) => {
 })
 
 /**
- * 登陆
+ * 用户登陆
  *  */
 router.post('/login', (req, res) => {
     const { telephone, password, uploadConfig={} } = req.body

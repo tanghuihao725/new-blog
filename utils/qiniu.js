@@ -1,4 +1,7 @@
-// 七牛云 获取上传凭证
+/**
+ * 七牛云 获取上传凭证 并传给前端
+ */
+// 
 const qiniu = require('qiniu')
 
 module.exports = (accessKey, secretKey, bucket) => {
