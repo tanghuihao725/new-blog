@@ -1,4 +1,5 @@
 <template>
+<!-- 登陆表单 -->
   <div :class="loginWrapperClass">
     <h1>登陆 Login</h1>
     <el-form
@@ -6,7 +7,6 @@
       :rules="rules"
       ref="ruleForm"
       label-width="100px"
-      class="demo-ruleForm"
       hide-required-asterisk
     >
       <el-form-item label="手机号" prop="telephone">
@@ -18,6 +18,7 @@
           type="password"
           placeholder="password"
           @keydown.native.enter="handleLogin('ruleForm')"
+          show-password
           clearable
         ></el-input>
       </el-form-item>
@@ -31,8 +32,13 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import constant from '../../../utils/constant'
+import mixin from './mixin'
 
 export default {
+  /**
+   * 混入方法 封装了注册和登陆都会用到的 login
+   */
+  mixins:[mixin],
   data() {
     return {
       ruleForm: {
@@ -61,30 +67,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions("user/userManagement", ["login"]),
-    ...mapMutations("user", ["setUserDialog", "setUserCurrent"]),
+    /**
+     * 触发登陆
+     */
     handleLogin(formName) {
+      // 合法性验证
       this.$refs[formName].validate(valid => {
         if (!valid) return false;
-        this.ruleForm.uploadConfig = constant.uploadConfig
-        this.login({ data: this.ruleForm })
-          .then(res => {
-            const user = res.data.data;
-            localStorage.blogToken = res.data.token;
-            localStorage.uploadToken = res.data.uploadToken;
-            this.setUserDialog(false);
-            this.setUserCurrent(user);
-            this.$notify.success({
-              title: "登陆成功",
-              message: `欢迎回来,${user.nickname || user.telephone}`
-            });
-          })
-          .catch(err =>
-            this.$notify.error({
-              title: "登录失败",
-              message: `原因:${err.response.data.msg}`
-            })
-          );
+        this.mixinLogin(this.ruleForm).then(()=>this.$emit('closeDialog'))
       });
     }
   }

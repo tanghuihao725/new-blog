@@ -11,3 +11,8 @@ export function authorityName(auth){
             return { name:'超级管理员',color:'orange',auth:[1],icon:'el-icon-trophy' }
     }
 }
+
+export function avatarDefault(sex){
+    if(sex>1 || sex<0) return require('../../assets/img/avatar/avatar_pig_bow_small.jpg')
+    return sex === 0 ? require('../../assets/img/avatar/avatar_female_small.jpg') : require('../../assets/img/avatar/avatar_male_small.jpg')
+}

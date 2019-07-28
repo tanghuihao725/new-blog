@@ -7,7 +7,6 @@
       <router-link to="/users">用户管理</router-link>
     </div>
     <userDialog/>
-    <button @click="setUserDialog(true)">open</button>
     {{$store.state.user.showUserDialog}}
     <router-view />
   </div>

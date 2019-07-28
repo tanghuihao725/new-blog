@@ -1,10 +1,11 @@
 <template>
+  <!-- 用户管理系统主界面 -->
   <div class="all-user-container">
     <h5>
       用户信息({{getAllUsers.length}})条
       <el-button type="text" :loading="loading" @click="showAll=!showAll">显示{{showAll?'正常':'全部'}}</el-button>
     </h5>
-    <!-- PC版 -->
+    <!-- PC版 Table -->
     <el-table
       :data="getAllUsers.data"
       stripe
@@ -15,11 +16,18 @@
       v-loading="loading"
       empty_text="暂时没有用户信息"
     >
-      <el-table-column prop="id" label="用户id" width="180" align="center"></el-table-column>
+      <el-table-column prop="id" label="id" width="60" align="center"></el-table-column>
+      <el-table-column prop="sex" label="性别" width="80" align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.sex===1"><i class="el-icon-male" style="color:skyblue;font-size:1.2em"></i></span>
+          <span v-else style="color:red"><i class="el-icon-female" style="color:pink;font-size:1.2em"></i></span>
+        </template>
+      </el-table-column>
       <el-table-column prop="telephone" label="手机号" width="180" align="center"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="180" align="center"></el-table-column>
       <el-table-column label="权限" align="center">
         <template slot-scope="scope">
+          <!-- 显示权限徽章 -->
           <authBadage :authority="scope.row.authority" />
         </template>
       </el-table-column>
@@ -35,7 +43,7 @@
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <div v-if="scope.row.isDelete===0">
-            <el-button type="primary" icon="el-icon-edit" circle @click="handleEditUser(scope)"></el-button>
+            <el-button icon="el-icon-edit" circle @click="handleEditUser(scope)"></el-button>
             <el-button type="danger" icon="el-icon-delete" @click="handleDeleteUser(scope)" circle></el-button>
           </div>
           <el-button
@@ -50,7 +58,7 @@
     </el-table>
 
     <!-- 用户编辑表单 dialog -->
-    <editForm from="manage" @update="updateData()" />
+    <editDialog from="manage" @update="updateData()" :defaultData="editShowData" :visible.sync="editDialogVisible" />
   </div>
 </template>
 
@@ -58,32 +66,38 @@
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import { authorityName } from "../../utils/common/user";
 import authBadage from "../common/authBadage.vue";
-import editForm from "../components/editDialog";
+import editDialog from "../components/editDialog";
 
 export default {
   data() {
     return {
+      // 显示全部/部分 flag
       showAll: false,
-      loading: false
+      // 页面加载 flag
+      loading: false,
+      
+      // 用户编辑器弹窗是否打开 flag  &  用户编辑器默认的资料 
+      editDialogVisible: false,
+      editShowData:{}
     };
   },
   mounted() {
+    // 刷新页面
     this.updateData(0);
-    this.setEditorUserInfo({});
   },
   computed: {
     ...mapGetters("user/userManagement", ["getAllUsers"]),
+    // 获取设备类型
     isMobile: () => this.$store.state.isMobile
   },
   methods: {
-    ...mapMutations("user/userManagement", [
-      "setEditorUserInfo",
-      "showEditDialog"
-    ]),
-    ...mapActions("user/userManagement", ["fetchAllUsers", "deleteUser","updateUser"]),
+      ...mapActions("user/userManagement", ["fetchAllUsers", "deleteUser","updateUser"]),
+    /**
+     * 点击编辑用户事件
+     */
     handleEditUser(scope) {
-      this.setEditorUserInfo(scope.row);
-      this.showEditDialog(true);
+      this.editDialogVisible = true
+      this.editShowData = scope.row
     },
     // 删除用户
     handleDeleteUser(scope) {
@@ -130,13 +144,23 @@ export default {
     }
   },
   watch: {
+    /**
+     *  监听showAll变化是否决定如何展示数据信息
+     */
     showAll(val) {
       this.updateData(val ? 1 : 0);
     }
   },
   components: {
     authBadage,
-    editForm
+    editDialog
   }
 };
 </script>
+
+<style lang="less" scoped>
+.all-user-container{
+  text-align: center;
+}
+</style>
+

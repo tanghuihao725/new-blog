@@ -40,9 +40,11 @@ export default {
         },
         // Login
         login:({commit}, payload={}) => {
-            const {data={}} = payload
-            console.log(data)
-            return http.post('/users/login',{ data })
+            return http.post('/users/login',{ data:payload.data })
+        },
+        // Register
+        register:({commit}, payload={}) => {
+            return http.post('/users/register',{data: payload.data})
         }
     }
 }
