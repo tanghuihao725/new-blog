@@ -3,25 +3,29 @@
     <h1>This is an about page</h1>
     <el-upload
       class="avatar-uploader"
-      action="/api/upload/img/"
+      :action="`${baseUrl}/upload/img/`"
       :show-file-list="false"
       :on-success="handleAvatarSuccess"
       :on-error="handleAvatarError"
-      drag
     >
       <img v-if="imageUrl" :src="imageUrl" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
-    <img src="http://localhost:5000/serverImage/avatar_pig_bow_small.jpg" />
+    <img :src='imageUrl' style="width:200px"/>
   </div>
 </template>
 
 <script>
+  import myconfig from '../myconfig'
+
   export default {
     data() {
       return {
         imageUrl: ''
       };
+    },
+    computed:{
+      baseUrl(){ return myconfig.baseUrl}
     },
     methods: {
       handleAvatarSuccess(res) {
@@ -29,7 +33,7 @@
         this.imageUrl = res.url;
       },
       handleAvatarError(err) {
-        console.log(err)
+        // console.log(err)
         this.$message.error({message:`${err}`})
       }
     }

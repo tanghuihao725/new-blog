@@ -58,7 +58,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item>
+        <el-form-item style="text-align:center">
           <el-button type="success" @click="submitForm" style="padding:12px 60px;">修改</el-button>
           <el-button type="danger" @click="handleClose" style="padding:12px 60px;">取消</el-button>
         </el-form-item>

@@ -4,19 +4,14 @@ export default {
     namespaced:true,
     state:{
         allUsers:{},
-        editorUserInfo:{},
-        editDialogVisible:false,
+        editorUserInfo:{}
     },
     getters:{
         getAllUsers: state=>state.allUsers,
-        getEditorUserInfo: state=>state.editorUserInfo,
     },
     mutations:{
         setAllUsers:(state, res)=>{
             state.allUsers  = res
-        },
-        setEditorUserInfo:(state, payload)=>{
-            state.editorUserInfo = payload
         },
         showEditDialog:(state, bool) => {
             state.editDialogVisible = bool

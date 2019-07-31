@@ -18,10 +18,6 @@ app.use(passport.initialize());
 
 require('./utils/passport')(passport)
 
-app.get('/',(req,res) => {
-    res.send('Hello World!')
-})
-
 // 路由接口文件：端口之上使用routes 当访问users/*** 就能找到该路由文件
 
 /**
@@ -40,9 +36,16 @@ app.use('/tags',tags)
 app.use('/upload',upload);
 app.use('/serverImage', express.static(path.join(__dirname, 'serverImage')));
 
+/**
+ * 主页 
+ */
+app.use(express.static('client/dist'))
+app.use('/',express.static(path.join(__dirname,'client/dist/index.html')))
+
+
 
 const port = process.env.PORT || 5000
 app.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
-    console.log(path.join(__dirname, '../serverImage'))
+    console.log(__dirname+'/client/dist/index.html')
 })

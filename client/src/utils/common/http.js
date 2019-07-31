@@ -1,8 +1,9 @@
 import axios from 'axios'
+import config from '../../myconfig'
 
 // 自定义配置
 const configs = {
-    baseURL: '/api',
+    baseURL: config.baseUrl,
     headers:{ }
 }
 

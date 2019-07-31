@@ -17,6 +17,13 @@
       empty_text="暂时没有用户信息"
     >
       <el-table-column prop="id" label="id" width="60" align="center"></el-table-column>
+
+      <el-table-column prop="avator" label="头像" width="100" align="center">
+        <template slot-scope="scope">
+          <el-avatar size="small" shape="square" :src="getAvatar(scope)" />
+        </template>
+      </el-table-column>
+
       <el-table-column prop="sex" label="性别" width="80" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.sex===1"><i class="el-icon-male" style="color:skyblue;font-size:1.2em"></i></span>
@@ -64,7 +71,7 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import { authorityName } from "../../utils/common/user";
+import { authorityName, avatarDefault } from "../../utils/common/user";
 import authBadage from "../common/authBadage.vue";
 import editDialog from "../components/editDialog";
 
@@ -92,6 +99,13 @@ export default {
   },
   methods: {
       ...mapActions("user/userManagement", ["fetchAllUsers", "deleteUser","updateUser"]),
+    /**
+     * 获取用户头像信息
+     */
+    getAvatar(scope){
+      if(scope.row.avator.length) return scope.row.avator
+      return avatarDefault(scope.row.sex)
+    },
     /**
      * 点击编辑用户事件
      */

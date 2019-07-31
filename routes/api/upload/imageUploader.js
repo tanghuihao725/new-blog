@@ -27,6 +27,7 @@ module.exports = (req, res) => {
 
         //  储存后缀名
         let extName = '';
+        console.log(file.type)
         switch (file.type) {
             case 'image/png':
             case 'image/x-png':
@@ -36,6 +37,9 @@ module.exports = (req, res) => {
             case 'image/jpeg':
                 extName = 'jpg';
                 break;
+            case 'image/gif':
+                extName = 'gif'
+                break
         }
         // 如果文件后缀未赋值
         if (extName.length === 0) {

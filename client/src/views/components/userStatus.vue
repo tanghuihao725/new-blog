@@ -8,7 +8,8 @@
       <div class="is-login" v-if="isLogin" trigger="click">
         <!-- 头像显示 -->
         <div class="avatar-wrapper" @click="editDialogVisbile=true">
-          <el-avatar size="small" shape="square" :src="getAvatar" />
+          <!-- <el-avatar size="small" shape="square" :src="getAvatar" /> -->
+          <el-avatar size="medium" shape="square" :src="getAvatar" />
         </div>
         <!-- 用户名 -->
         <p class="nickname">{{userCurrent.nickname||userCurrent.telephone}}</p>
