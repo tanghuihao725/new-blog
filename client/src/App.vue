@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <userStatus/>
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About{{$store.state.isMobile?"Phone":"PC"}}</router-link>|
-      <router-link to="/users">用户管理</router-link>
-    </div>
+    <nav>
+      <navbar id="mynav"/>
+    </nav>
     <userDialog/>
-    {{$store.state.user.showUserDialog}}
-    <router-view />
+    <transition name='nav2'>
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -16,10 +14,19 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import userDialog from './views/components/userLogin/index.vue'
 import userStatus from './views/components/userStatus.vue'
+import navbar from '@/components/Nav'
+
 export default {
+  data(){
+    return {
+      animationShow: false
+    }
+  },
   mounted(){
     // 根据localStorage的值获取用户信息
     this.initCurrent()
+    // 开始入场动画
+    this.animationShow = true
   },
   computed:{
     ...mapGetters('user',['getUserDialogStatu'])
@@ -29,14 +36,29 @@ export default {
     ...mapActions('user',['initCurrent'])
   },
   components:{
-    userDialog,userStatus
+    userDialog,userStatus,navbar
   }
 }
 </script>
 
 
 <style lang="less">
+.nav-enter,
+.nav-leave-to{
+  opacity: 0;
+  transform: translateX(550px)
+}
+.nav-enter-active,
+.nav-leave-active{
+  transition: all 3.8s ease;
+}
+</style>
 
+<style>
+body{
+  margin: 0;
+  padding: 0;
+}
 </style>
 
 

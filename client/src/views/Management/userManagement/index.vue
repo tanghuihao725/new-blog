@@ -1,16 +1,13 @@
 <template>
   <!-- 用户管理系统主界面 -->
   <div class="all-user-container">
-    <h5>
+    <h5 style="textAlign:left">
       用户信息({{getAllUsers.length}})条
       <el-button type="text" :loading="loading" @click="showAll=!showAll">显示{{showAll?'正常':'全部'}}</el-button>
     </h5>
     <!-- PC版 Table -->
     <el-table
       :data="getAllUsers.data"
-      stripe
-      border
-      style="width: 90%"
       ref="allUserTable"
       highlight-current-row
       v-loading="loading"
@@ -71,9 +68,9 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import { authorityName, avatarDefault } from "../../utils/common/user";
-import authBadage from "../common/authBadage.vue";
-import editDialog from "../components/editDialog";
+import { authorityName, avatarDefault } from "@/utils/common/user";
+import authBadage from "../../common/authBadage.vue";
+import editDialog from "../../components/editDialog";
 
 export default {
   data() {
@@ -174,6 +171,7 @@ export default {
 
 <style lang="less" scoped>
 .all-user-container{
+  width: 100%;
   text-align: center;
 }
 </style>

@@ -7,50 +7,53 @@ const db = require('../../mysql/connection')
 const passport = require('passport')
 
 const utils = require('../../utils/dbUtils')
+
+const TABLENAME = "albums"
 /**
  * 测试用 
  * */
 router.get('/test', (req, res) => {
-    res.json({ msg: 'Tags work!' })
+    res.json({ msg: 'albums work!' })
 })
 
 /**
- * 新增tag
+ * 新增album
  */
 router.post('/add', (req, res) => {
-    const { tagName } = req.body
-    utils.findAll({ tagName }, 'tags')
+    const { albumName } = req.body
+    utils.findAll({ albumName }, TABLENAME)
         .then(data => {
             if(data){
-                res.status(400).json({ msg: '已有同名标签' })
+                res.status(400).json({ msg: '已有同名专辑' })
             } else {
-                const insertSql = utils.insertObjToSql(req.body, 'tags')
+                const insertSql = utils.insertObjToSql(req.body, TABLENAME)
+                console.log(insertSql)
                 db.connect(insertSql)
-                .then(data => res.json({ msg: '增加标签成功', id: data.insertId }))
-                .catch(() => res.status(400).json({ msg: '增加失败' }))
+                .then(data => res.json({ msg: '增加成功', id: data.insertId }))
+                .catch((err) => res.status(400).json({ msg: err }))
             }
         })
 })
 
 /**
- * 删除tag
+ * 删除album 任何条件
  */
 router.get('/delete', (req, res) => {
-    utils.deleteObj(req.query, 'tags')
+    utils.deleteObj(req.query, TABLENAME)
       .then(()=> res.json({ msg: '删除成功' }))
       .catch(err => res.status(400).json({msg: err.msg || err}))
 })
 
 /**
- * 条件获取tags
+ * 条件获取album
  */
 router.get('/query', (req, res) => {
-    let sql = 'select * from tags'
-    if(req.query && req.query.tagIds){
-        const tagArr = req.query.tagIds.split(',').map(tagId => {
-            return `id = ${tagId}`
+    let sql = `select * from ${TABLENAME}` 
+    if(req.query && req.query.albumsIds){
+        const albumArr = req.query.albumsIds.split(',').map(albumsId => {
+            return `id = ${albumsId}`
         })
-        sql += ` where ${tagArr.join(' or ')}`
+        sql += ` where ${albumArr.join(' or ')}`
     }
     sql += ` order by updatedat desc`
     db.connect(sql)
@@ -63,11 +66,11 @@ router.get('/query', (req, res) => {
 })
 
 /**
- * 更新tag信息
+ * 更新album信息
  */
 router.post('/update', (req, res) => {
     const { id, ...others } = req.body
-    utils.updateObj(others, 'tags', ` id = ${id} `)
+    utils.updateObj(others, TABLENAME, ` id = ${id} `)
     .then(data => res.json({
         msg: '调用接口成功'
     }))

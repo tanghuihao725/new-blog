@@ -25,7 +25,7 @@
       };
     },
     computed:{
-      baseUrl(){ return myconfig.baseUrl}
+      baseUrl(){ return myconfig.baseUrl }
     },
     methods: {
       handleAvatarSuccess(res) {

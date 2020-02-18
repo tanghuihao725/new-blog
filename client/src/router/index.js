@@ -4,7 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -18,9 +18,9 @@ export default new Router({
       component: () => import('../views/About.vue')
     },
     {
-        path: '/users',
-        name:'users',
-        component: () => import('../views/userManagement/index.vue')
+        path: '/management',
+        name:'management',
+        component: () => import('../views/Management/index.vue')
     }
   ]
 })

@@ -5,15 +5,21 @@
     :visible.sync="visible"
     @open="handleOpen"
     :before-close="handleClose"
+    top="10vh"
     :width="baseInfo.isMobile? '90%' : '50%'"
   >
-    <!-- 用户头像 -->
-    <div class="avatar" @click="handleClick()">
-      <img :src="getAvatar" />
+    <div class="avarar-wrapper">
+      <el-upload
+        class="avatar-uploader"
+        :action="`${baseUrl}/upload/img/`"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :on-error="handleAvatarError"
+      >
+        <img v-if="getAvatar" :src="getAvatar" class="avatar" />
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
     </div>
-
-    <!-- 上传器 -->
-    <input type="file" id="avatar-upload" />
 
     <div class="form-container">
       <!-- 表单 -->
@@ -70,7 +76,7 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import { avatarDefault } from "../../utils/common/user";
-import config from '@/myconfig'
+import config from "@/myconfig";
 
 export default {
   data() {
@@ -87,7 +93,8 @@ export default {
       },
       rules: {
         email: []
-      }
+      },
+      avatarUrl: ""
     };
   },
   props: {
@@ -113,21 +120,23 @@ export default {
   },
   computed: {
     ...mapGetters(["baseInfo"]),
+    baseUrl() {
+      return config.baseUrl;
+    },
     isMobile() {
       return this.baseInfo.isMobile;
     },
     /**
      * 用户是否有头像，如果没有传入默认头像，返回值默认头像的静态地址
      */
-    getAvatar(){
-      if(this.ruleForm.avator.length) return this.ruleForm.avator
-      return avatarDefault(this.ruleForm.sex)
+    getAvatar() {
+      if (this.ruleForm.avator.length) return this.ruleForm.avator;
+      return avatarDefault(this.ruleForm.sex);
     }
   },
   methods: {
     ...mapActions("user", ["initCurrent"]),
     ...mapActions("user/userManagement", ["updateUser"]),
-    ...mapActions(["uploadFile"]),
     getLabel(label) {
       if (this.isMobile) return "";
       return label;
@@ -151,6 +160,12 @@ export default {
         })
         .catch(err => this.$message.error({ message: err.msg || err }));
     },
+    handleAvatarSuccess(res) {
+      this.ruleForm.avator = res.url;
+    },
+    handleAvatarError(err) {
+      this.$message.error({ message: err.msg || err });
+    },
     /**
      * dialog打开触发事件
      */
@@ -163,50 +178,50 @@ export default {
      */
     handleClose() {
       this.$emit("update:visible", false);
-    },
-    /**
-     * 七牛云点击上传照片
-     */
-    handleClick() {
-      const uploader = document.getElementById("avatar-upload");
-      uploader.onchange = () => {
-        const avatar = uploader.files[0];
-        // filename 为当前时间戳
-        const filename = `${parseInt(Date.now())}`;
-        this.uploadFile({ file: avatar, key: filename })
-          .then(res => {
-            // 图片拼接URL
-            // this.ruleForm.avator = `http://puq44g7gw.bkt.clouddn.com/${filename}`;
-            this.ruleForm.avator = `${config.qiniu.baseUrl}/${filename}`
-          })
-          .catch(err => console.log(err));
-      };
-      uploader.click();
     }
   }
 };
 </script>
+
 
 <style lang="less" scoped>
 .form-container {
   padding: 0 50px;
   text-align: left;
 }
-.avatar {
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  border: 2px solid #aaa;
-  overflow: hidden;
-  margin: 20px auto;
-  cursor: pointer;
-  img {
-    width: 100%;
-    height: 100%;
-  }
+.avatar-uploader{
+  text-align: center;
+  margin-bottom: 20px;
 }
-#avatar-upload {
-  display: none;
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
+  text-align: center;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  display: block;
+}
+</style>
+
+<style lang="less">
+.el-dialog {
+    border: 3px solid black;
+    border-radius: 0;
 }
 </style>
 

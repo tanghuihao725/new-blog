@@ -6,16 +6,18 @@ const bodyParser = require('body-parser')
 // passport
 const passport = require('passport')
 
+// 接口文件
 const users = require('./routes/api/user')
 const tags = require('./routes/api/tags')
+const albums = require('./routes/api/albums')
 const upload = require('./routes/api/upload/index')
 
 // 解析urlencoded和raw/json
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
+
 // 初始化passport
 app.use(passport.initialize());
-
 require('./utils/passport')(passport)
 
 // 路由接口文件：端口之上使用routes 当访问users/*** 就能找到该路由文件
@@ -23,12 +25,13 @@ require('./utils/passport')(passport)
 /**
  * 用户接口：包含 登陆 注册 更新 获取当前用户 等
  */
-app.use('/users',users)
+app.use('/users', users)
 
 /**
  * 标签专辑接口 
  */
-app.use('/tags',tags)
+app.use('/tags', tags)
+app.use('/albums', albums)
 
 /**
  * 图片上传接口
@@ -43,8 +46,8 @@ app.use(express.static('client/dist'))
 app.use('/',express.static(path.join(__dirname,'client/dist/index.html')))
 
 
+const port = process.env.PORT || '5000'
 
-const port = process.env.PORT || 5000
 app.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
     console.log(__dirname+'/client/dist/index.html')

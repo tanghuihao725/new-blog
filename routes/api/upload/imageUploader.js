@@ -56,8 +56,5 @@ module.exports = (req, res) => {
             if(err) return res.status(400).json({msg: '图片上传失败'})
             return res.json({msg: '图片上传成功!', url:`${config.dev_url}/serverImage/${imageName}`})
         })
-
     })
-
-
 }

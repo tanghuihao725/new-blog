@@ -1,6 +1,6 @@
 export default {
     qiniu:{
-        baseUrl: 'http://puq44g7gw.bkt.clouddn.com'
+        // baseUrl: 'http://puq44g7gw.bkt.clouddn.com'
     },
     /* 本地测试环境 */
     // baseUrl:'http://localhost:5000',

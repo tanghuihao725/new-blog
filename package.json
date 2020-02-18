@@ -1,7 +1,7 @@
 {
   "name": "new-blog",
   "version": "1.0.0",
-  "description": "redo the blog",
+  "description": "唐慧豪的博客",
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",

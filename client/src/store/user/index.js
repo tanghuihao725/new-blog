@@ -1,5 +1,5 @@
 import userManagement from './userManagement'
-import http from '../../utils/common/http'
+import http from '@/utils/common/http'
 
 export default {
     namespaced: true,

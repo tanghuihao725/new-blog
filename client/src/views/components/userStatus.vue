@@ -12,9 +12,9 @@
           <el-avatar size="medium" shape="square" :src="getAvatar" />
         </div>
         <!-- 用户名 -->
-        <p class="nickname">{{userCurrent.nickname||userCurrent.telephone}}</p>
+        <p class="nickname" v-if="!simplify">{{userCurrent.nickname||userCurrent.telephone}}</p>
         <!-- 权限徽章 small -->
-        <div class="badage-wrapper" v-if="userCurrent.authority!==1">
+        <div class="badage-wrapper" v-if="userCurrent.authority!==1 && !simplify">
           <authBadage :authority="userCurrent.authority" short />
         </div>
 
@@ -47,6 +47,12 @@ import editDialog from "./editDialog.vue";
 import { avatarDefault } from '../../utils/common/user'
 
 export default {
+  props:{
+    // 是否简化，只显示头像和菜单
+    simplify:{
+      default: false
+    }
+  },
   data() {
     return {
       loginPanelVisible: false,
