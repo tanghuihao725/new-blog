@@ -8,6 +8,9 @@
     :before-close="handleClose"
   >
     <el-form ref="form" :model="form" label-width="80px">
+      <el-form-item label="预览">
+        <Album :albumData="form" :chooseAble="true"/>
+      </el-form-item>
       <el-form-item label="专辑名称">
         <el-input v-model="form.albumName"></el-input>
       </el-form-item>
@@ -55,6 +58,7 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
+import Album from '@/components/Album'
 
 export default {
   props: {
@@ -73,10 +77,10 @@ export default {
         icon: "",
         description: "",
         type: 0,
-        hide: 0,
+        hide: false,
         orderFactor: 50,
-        color: "#000000",
-        notPush: 0
+        color: "#6f93bd",
+        notPush: false
       },
       options: [
         {
@@ -93,6 +97,16 @@ export default {
       return !!this.defaultData;
     }
   },
+  watch:{
+    // 如果仅自己可见打开，那么不推到主页一定也会打开
+    "form.hide": {
+      handler: function(val){
+        if(val){
+          this.form.notPush = val
+        }
+      }
+    }
+  },
   methods: {
     ...mapActions("content/albums", ["createAlbum", "updateAlbum"]),
     handleClose() {
@@ -100,8 +114,11 @@ export default {
     },
     handleOpen() {
       if (this.isEdit) {
-        const { createdAt, updatedAt, ...others } = this.defaultData
-        Object.assign(this.form, others);
+        const { createdAt, updatedAt, notPush, hide, ...others } = this.defaultData
+        Object.assign(this.form, others,{
+          hide: Boolean(hide),
+          notPush: Boolean(notPush)
+        });
       } else {
         // 如果是增加新专辑 则初始化表单
         this.form = {
@@ -109,10 +126,10 @@ export default {
           icon: "",
           description: "",
           type: 0,
-          hide: 0,
+          hide: false,
           orderFactor: 50,
-          color: "#000000",
-          notPush: 0
+          color: "#6f93bd",
+          notPush: false
         }
       }
     },
@@ -127,7 +144,8 @@ export default {
       }
       const payload = Object.assign(others, {
         hide: Number(hide),
-        notPush: Number(notPush)
+        // 如果hide为1 那么notPush也强制为1
+        notPush: Number(hide) ? 1 : Number(notPush)
       });
 
       const f = this.isEdit ? this.updateAlbum : this.createAlbum;
@@ -140,6 +158,9 @@ export default {
         })
         .catch(err => this.$message.error({ message: err.msg || err }));
     }
+  },
+  components:{
+    Album
   }
 };
 </script>

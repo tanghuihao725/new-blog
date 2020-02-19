@@ -6,10 +6,20 @@
       <el-table-column prop="icon" label="icon" width="100"></el-table-column>
       <el-table-column prop="albumName" label="albumName"></el-table-column>
       <el-table-column prop="description" label="描述"></el-table-column>
-      <el-table-column prop="type" label="种类(type)"></el-table-column>
-      <el-table-column prop="hide" label="仅自己可见"></el-table-column>
-      <el-table-column prop="notPush" label="首页不显示"></el-table-column>
-      <el-table-column prop="orderFactor" label="排序因子"></el-table-column>
+      <el-table-column prop="type" label="种类(type)" align="center"></el-table-column>
+      <el-table-column label="公开" align="center">
+        <template slot-scope="scope">
+          <i v-if="scope.row.hide === 1" class="el-icon-lock"></i>
+          <i v-else class="el-icon-check"></i>
+        </template>
+      </el-table-column>
+      <el-table-column label="首页显示" align="center">
+        <template slot-scope="scope">
+          <i v-if="scope.row.notPush === 1" class="el-icon-close-notification"></i>
+          <i v-else class="el-icon-check"></i>
+        </template>
+      </el-table-column>
+      <el-table-column prop="orderFactor" label="排序因子" align="center"></el-table-column>
       <el-table-column prop="color" label="颜色">
         <template slot-scope="scope">
           <div
@@ -88,3 +98,17 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+.album-management-container{
+  .el-icon-lock{
+    color: red;
+  }
+  .el-icon-close-notification{
+    color: orange;
+  }
+  .el-icon-check{
+    color: green;
+  }
+}
+</style>

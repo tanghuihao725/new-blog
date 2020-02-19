@@ -4,7 +4,6 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../../mysql/connection')
-const passport = require('passport')
 
 const utils = require('../../utils/dbUtils')
 
@@ -27,10 +26,9 @@ router.post('/add', (req, res) => {
                 res.status(400).json({ msg: '已有同名专辑' })
             } else {
                 const insertSql = utils.insertObjToSql(req.body, TABLENAME)
-                console.log(insertSql)
                 db.connect(insertSql)
                 .then(data => res.json({ msg: '增加成功', id: data.insertId }))
-                .catch((err) => res.status(400).json({ msg: err }))
+                .catch((err) => res.status(400).json({ err }))
             }
         })
 })
@@ -41,7 +39,7 @@ router.post('/add', (req, res) => {
 router.get('/delete', (req, res) => {
     utils.deleteObj(req.query, TABLENAME)
       .then(()=> res.json({ msg: '删除成功' }))
-      .catch(err => res.status(400).json({msg: err.msg || err}))
+      .catch(err => res.status(400).json({ err }))
 })
 
 /**

@@ -8,6 +8,11 @@
     :before-close="handleClose"
   >
     <el-form ref="form" :model="form" label-width="80px">
+      
+      <el-form-item label="预览">
+        <Tag :tagData="form" :chooseAble="true"/>
+      </el-form-item>
+
       <el-form-item label="标签名称">
         <el-input v-model="form.tagName"></el-input>
       </el-form-item>
@@ -29,6 +34,7 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
+import Tag from '@/components/Tags/Tag'
 
 export default {
   props: {
@@ -45,7 +51,7 @@ export default {
       form: {
         tagName: "",
         description: "",
-        color: "#000000"
+        color: "#666666"
       }
     };
   },
@@ -70,7 +76,7 @@ export default {
         this.form = {
           tagName: "",
           description: "",
-          color: "#000000",
+          color: "#666666",
         }
       }
     },
@@ -94,6 +100,9 @@ export default {
         })
         .catch(err => this.$message.error({ message: err.msg || err }));
     }
+  },
+  components:{
+    Tag
   }
 };
 </script>
