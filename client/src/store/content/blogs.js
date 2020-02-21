@@ -4,14 +4,17 @@ export default {
     namespaced: true,
     state:{
         // 获取到到所有专辑内容
-        stateBlogs: []
+        stateBlogs: [],
+        stateTotal: 0
     },
     getters:{
-        blogs: state => state.stateBlogs
+        blogs: state => state.stateBlogs,
+        total: state => state.stateTotal
     },
     mutations:{
         setBlogs: (state, data) => {
             state.stateBlogs = data.data
+            state.stateTotal = data.total
         }
 
     },
@@ -22,6 +25,13 @@ export default {
         fetchBlogs:({commit}, payload)=>{
             return http.post('/blogs/query', { data: payload })
                 .then(res => commit('setBlogs', res.data))
+        },
+        /**
+         * 获取一个博客
+         */
+        getSingleBlog:(content, payload) => {
+            const { type = 4, id = 1 } = payload
+            return http.post('/blogs/query', { data : { type, id } })
         },
         /**
          * 删除专辑

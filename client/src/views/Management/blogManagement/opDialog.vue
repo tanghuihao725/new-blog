@@ -8,8 +8,24 @@
     :before-close="handleClose"
   >
     <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="名称">
+      <el-form-item label="标题">
         <el-input v-model="form.title"></el-input>
+      </el-form-item>
+
+      <el-form-item label="标签">
+        <TagSelector @change="handleTagChange" ref="myTagSelector"/>
+      </el-form-item>
+      
+      <el-form-item label="专辑">
+        <AlbumSelector @change="handleAlbumChange" ref="myAlbumSelector"/>
+      </el-form-item>
+
+      <el-form-item label="浏览量">
+         <el-input-number v-model="form.views" :min="0" :max="99999"></el-input-number>
+      </el-form-item>
+
+    <el-form-item label="点赞数">
+         <el-input-number v-model="form.likes" :min="0" :max="99999"></el-input-number>
       </el-form-item>
 
       <el-form-item label="排序">
@@ -25,6 +41,8 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import TagSelector from "@/components/Tags/TagSelector";
+import AlbumSelector from "@/components/Album/AlbumSelector"
 
 export default {
   props: {
@@ -42,7 +60,9 @@ export default {
         title: "",
         views: 0,
         likes: 0,
-        orderFactor: 50
+        orderFactor: 50,
+        tags: "",
+        album: ""
       }
     };
   },
@@ -61,9 +81,22 @@ export default {
         likes,
         orderFactor,
         id,
+        tags,
+        album,
         ...others
       } = this.defaultData;
-      Object.assign(this.form, { title, views, likes, orderFactor, id });
+      Object.assign(this.form, { title, views, likes, orderFactor, id, tags, album });
+      setTimeout(()=>{
+        this.$refs['myTagSelector'].refreshChoosenListWithIds(tags)
+        this.$refs['myAlbumSelector'].refreshChoosenListWithIds(album)
+      },100)
+    },
+    // 当选中标签或者专辑后
+    handleTagChange(tagIds){
+      this.form.tags = tagIds
+    },
+    handleAlbumChange(albumIds){
+      this.form.album = albumIds
     },
     onSubmit() {
       /**
@@ -81,6 +114,9 @@ export default {
         })
         .catch(err => this.$message.error({ message: err.msg || err }));
     }
+  },
+  components: {
+    TagSelector, AlbumSelector
   }
 };
 </script>

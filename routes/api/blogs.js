@@ -55,6 +55,7 @@ router.get('/delete', (req, res) => {
 
 // 工具函数，根据 1,2,3 获取各个id值的tag详情
 function findTagDetailsFromIds(ids) {
+    if(!ids) return Promise.resolve([])
     let sql = `select * from ${TAG_TABLE}`
     const tagArr = ids.split(',').map(tagId => `id = ${tagId}`)
     sql += ` where ${tagArr.join(' or ')}`
@@ -62,7 +63,7 @@ function findTagDetailsFromIds(ids) {
 }
 
 router.post('/query', (req, res) => {
-    // type: 0公开，1所有, 2:分类公开 3:分类所有 
+    // type: 0公开，1所有, 2:分类公开 3:分类所有 4: 通过id查找
     const { pageNum = 1, pageSize = 10, type = 0 } = req.body
     // 先查询满足条件blog
     let sql = `select 
@@ -84,6 +85,8 @@ router.post('/query', (req, res) => {
                     or ${ALBUM_TABLE}.notPush is null )
                 `
         }
+    }else if(type == 4){
+        sql += ` where ${TABLENAME}.id = ${req.body.id} `
     }
     // 排序 分页
     sql += `
@@ -91,10 +94,6 @@ router.post('/query', (req, res) => {
         ${TABLENAME}.orderFactor asc,
         ${TABLENAME}.updatedAt desc `
 
-    let pageDivision = `
-        limit ${pageSize} 
-        offset ${(pageNum - 1) * pageSize}
-    `
     db.connect(sql)
         .then(data => {
             const total = data.length

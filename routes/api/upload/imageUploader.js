@@ -21,13 +21,12 @@ module.exports = (req, res) => {
 
     /* 格式化数据 */
     form.parse(req, (err, fields, files) => {
-        let file = files.file
+        let file = files.file || files.image
+        
         // 出错拦截
         if (err) return res.status(500).json({ msg: '服务器内部错误', code: 'S0001' })
-
         //  储存后缀名
         let extName = '';
-        console.log(file.type)
         switch (file.type) {
             case 'image/png':
             case 'image/x-png':

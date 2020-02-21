@@ -1,16 +1,16 @@
 <template>
   <div class="management-container">
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="博客管理" name="blog">
+      <el-tab-pane label="博客管理" name="blog" :lazy="true">
         <blogManagement/>
       </el-tab-pane>
-      <el-tab-pane label="专辑管理" name="tag">
+      <el-tab-pane label="专辑管理" name="tag" :lazy="true">
         <albumManagement/>
       </el-tab-pane>
-      <el-tab-pane label="标签管理" name="album">
+      <el-tab-pane label="标签管理" name="album" :lazy="true">
         <tagManagement />
       </el-tab-pane>
-      <el-tab-pane label="用户管理" name="user">  
+      <el-tab-pane label="用户管理" name="user" :lazy="true">  
           <div class="user-management-wrapper">
               <userManagement/>
           </div>

@@ -67,7 +67,7 @@ dbUtils.deleteObj = function(obj, tableName, method='and'){
 dbUtils.updateObjToSql = (obj, tableName, cases)=>{
     const sqlArray = []
     Object.keys(obj).forEach(key => {
-        if(obj[key]!=='' && obj[key]!==undefined){
+        if(obj[key]!==undefined){
             sqlArray.push(`${key} = ${toString(obj[key])}`)
         }
     })

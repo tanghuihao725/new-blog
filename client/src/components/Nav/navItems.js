@@ -3,13 +3,13 @@ export default [
         id: 1,
         icon: 'el-icon-s-home',
         router: '/',
-        title: '首页',
+        title: 'Home',
         authority: 1
     },{
         id: 2,
         icon: 'el-icon-menu',
         router: '/catagories',
-        title: '分类',
+        title: 'Catagories',
         authority: 1
     },{
         id: 3,
@@ -21,7 +21,13 @@ export default [
         id: 4,
         icon: 'el-icon-s-tools',
         router: '/management',
-        title: '后台管理',
+        title: 'Management',
         authority: 6
+    },{
+        id: 5,
+        icon: 'el-icon-s-tools',
+        router: '/login',
+        title: "Log In",
+        authority: 1
     }
 ]

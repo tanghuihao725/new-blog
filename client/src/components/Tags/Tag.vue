@@ -62,7 +62,7 @@ export default {
             this.$emit('clicked', this.tagData)
         },
         handleDelete(){
-            this.$emit('deleted', this.tagData)
+            this.$emit('deleted')
         }
     }
 }
@@ -71,26 +71,34 @@ export default {
 <style lang="less" scoped>
 .tag{
     display: inline-block;
-    padding: 1px 8px;
-    border-radius: 10px;
-    border: 1px solid #000;
-    font-size: 1rem;
+    padding: 0.0625em 0.5em;
+    border-radius: 0.625em;
+    border: 0.0625em solid #000;
+    font-size: 1em;
     font-weight: 350;
     transition: all 0.1s;
-    line-height: 20px;
-
+    line-height: 1.25em;
+    height: 1.375em;
     .el-icon-close{
-        margin-left: 2px;
+        margin-left: 0.125em;
         transition: transform 1s;
     }
 }
 .chooseAble{
     cursor: pointer;
 }
-.chooseAble:hover,
-.isChoosen{
-    color: rgb(32, 207, 32)!important;
+.chooseAble:hover{
     border: 1px solid  rgb(32, 207, 32)!important;
+    color: rgb(32,207,32)!important;
+    // color: yellow!important;
+}
+.isChoosen{
+    color: white!important;
+    background-color: rgb(32, 207, 32);
+    border: 0.0625em solid  rgb(32, 207, 32)!important;
+}
+.isChoosen:hover{
+    color: yellow!important;
 }
 
 .borderLess,

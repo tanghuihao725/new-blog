@@ -1,9 +1,8 @@
 <template>
   <div id="app">
     <nav>
-      <navbar id="mynav"/>
+      <navbar id="mynav" v-show="true" v-if="!routeLogin"/>
     </nav>
-    <userDialog/>
     <transition name='nav2'>
       <router-view />
     </transition>
@@ -12,10 +11,7 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import userDialog from './views/components/userLogin/index.vue'
-import userStatus from './views/components/userStatus.vue'
 import navbar from '@/components/Nav'
-
 export default {
   data(){
     return {
@@ -29,14 +25,17 @@ export default {
     this.animationShow = true
   },
   computed:{
-    ...mapGetters('user',['getUserDialogStatu'])
+    ...mapGetters('user',['getUserDialogStatu']),
+    routeLogin(){
+      return this.$route.path.indexOf('login') >= 0
+    }
   },
   methods:{
     ...mapMutations('user',['setUserDialog']),
     ...mapActions('user',['initCurrent'])
   },
   components:{
-    userDialog,userStatus,navbar
+    navbar
   }
 }
 </script>
@@ -54,11 +53,35 @@ export default {
 }
 </style>
 
-<style>
+
+<style lang="less">
+// 全局样式
 body{
   margin: 0;
   padding: 0;
+  background-color: #eee;
+  scroll-behavior: smooth;
 }
+/**全局input框 */
+// .el-input{
+//   border: 1.5px solid #666;
+//    border-radius: 0;
+//    padding: 0 2px;
+// }
+// .el-input__inner:hover,
+// .el-input.is-active .el-input__inner, 
+// .el-input__inner:focus{
+//     border: none;
+//     outline: none;
+// }
+// .el-input__inner {
+//     border: none!important;
+//     height: 38px!important;
+//     line-height: 38px!important;
+//     width: 99%!important;
+//     outline: none!important;
+// }
+
 </style>
 
 

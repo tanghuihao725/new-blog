@@ -72,29 +72,30 @@ export default {
 <style lang="less" scoped>
 .album{
     display: inline-block;
-    padding: 1px 8px;
-    border-radius: 10px;
-    border: 2px solid #000;
-    font-size: 1rem;
-    line-height: 20px;
+    padding: 0.063em 0.5em;
+    border-radius: 0.625em;
+    border: 0.125em solid #000;
+    font-size: 1em;
+    line-height: 1.25em;
+    height: 1.31em;
     font-weight: 350;
     transition: all 0.1s;
 
     i:first-child{
-        margin-right: 10px;
+        margin-right: 0.625em;
     }
 
     .el-icon-close{
-        margin-left: 2px;
+        margin-left: 0.13em;
         transition: transform 1s;
     }
     .el-icon-close-notification{
         color: orange;
-        margin: 0 5px;
+        margin: 0 0.32em;
     }
     .el-icon-lock{
         color: #f40;
-        margin: 0 5px;
+        margin: 0 0.32em;
     }
 }
 .chooseAble{

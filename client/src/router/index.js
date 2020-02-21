@@ -10,7 +10,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/Home.vue')
+      component: () => import('../views/Home/index.vue')
     },
     {
       path: '/about',
@@ -21,6 +21,21 @@ export default new Router({
         path: '/management',
         name:'management',
         component: () => import('../views/Management/index.vue')
-    }
+    },
+    {
+      path: '/blog-edit',
+      name:'blog-edit',
+      component: () => import('../views/BlogEditor/index.vue')
+    },
+    {
+      path: '/login',
+      name:'login',
+      component: () => import('../views/Login/index.vue')
+    },
+    {
+      path: '/blog',
+      name:'blog',
+      component: () => import('../views/BlogView/index.vue')
+    },
   ]
 })
