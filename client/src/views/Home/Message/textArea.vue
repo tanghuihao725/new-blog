@@ -71,8 +71,8 @@ export default {
       data.hide = Boolean(data.hide);
       this.createMessage(data)
         .then(() => {
+          if(!this.form.hide) this.$emit("success");
           this.formClear();
-          this.$emit("success");
         })
         .catch(err => {
           this.$message.error({ message: err.msg || err });

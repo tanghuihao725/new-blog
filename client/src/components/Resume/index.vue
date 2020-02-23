@@ -58,7 +58,7 @@
             class="outer-link-button"
             v-for="link in details.outerLink"
             :key="link.title"
-            @click="toLink(link)"
+            @click="toLink(link.path)"
           >
             <i class="el-icon-link"></i>
             {{link.title}}
@@ -71,7 +71,7 @@
             class="outer-link-button"
             v-for="link in details.friendLink"
             :key="link.title"
-            @click="toLink(link)"
+            @click="toLink(link.path)"
           >
             <i class="el-icon-link"></i>
             {{link.title}}
@@ -135,6 +135,9 @@ export default {
       setTimeout(() => {
         this.$router.push(path);
       }, 900);
+    },
+    toLink(url) {
+      window.open(url,"_blank")
     }
   },
   components: {

@@ -37,5 +37,10 @@ export default new Router({
       name:'blog',
       component: () => import('../views/BlogView/index.vue')
     },
+    {
+      path: '/categories',
+      name:'categories',
+      component: () => import('../views/About.vue')
+    },
   ]
 })

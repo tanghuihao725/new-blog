@@ -8,8 +8,8 @@ export default [
     },{
         id: 2,
         icon: 'el-icon-menu',
-        router: '/catagories',
-        title: 'Catagories',
+        router: '/categories',
+        title: 'Categories',
         authority: 1
     },{
         id: 3,

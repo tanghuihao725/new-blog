@@ -15,7 +15,7 @@
         <span :class="{ active: active===2}" @click="handlePadClick(2)">精选留言</span>
       </div>
       <div class="messages-list-wrapper">
-        <p v-if="messagesList.length===0" class="no-data-tip">没有留言 ：（</p>
+        <p v-if="messagesList.length===0" class="no-data-tip">有个寂寞 ：（</p>
         <div v-else class="message-list" v-loading="loading">
           <ListItem
             class="list-item animate6 hide"
@@ -44,34 +44,37 @@ export default {
   },
   methods: {
     ...mapActions("content/messages", ["fetchMessages"]),
-    refreshMessages(type = 1) {
+    refreshMessages(type = 1, addAnimation = true) {
       this.loading = true;
-      return this.fetchMessages({ type })
-        .then(res => {
-          this.loading = false;
-          this.messagesList = res.data;
-        })
-        .then(() => {
-          // 加入入场动画
-          const eles = document.querySelectorAll(".animate6");
-          eles.forEach((ele,index) => {
-            ele.classList.remove("hide");
-            ele.classList.add("animated", "fadeInRight");
-            ele.style.animationDelay = `${index * 0.5}s`
-          });
-        });
+      return this.fetchMessages({ type }).then(res => {
+        this.loading = false;
+        this.messagesList = res.data;
+        if(!addAnimation) return
+        setTimeout(()=>{
+            this.addAnimationForMessages()
+        },200)
+      });
     },
     handlePadClick(type) {
       this.active = type;
-      return this.refreshMessages(type);
+      this.refreshMessages(type, true);
     },
     handleCreateMessageSuccess() {
       // 新插入的没有入场动画
       this.handlePadClick(1);
+    },
+    addAnimationForMessages() {
+      // 加入入场动画
+      const eles = document.querySelectorAll(".animate6");
+      eles.forEach((ele, index) => {
+        ele.classList.remove("hide");
+        ele.classList.add("animated", "fadeInRight");
+        ele.style.animationDelay = `${index * 0.5}s`;
+      });
     }
   },
   mounted() {
-    this.refreshMessages(1);
+    this.refreshMessages(1, false);
   },
   components: {
     textArea,
@@ -90,6 +93,7 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  overflow: hidden;
 
   .message-pad {
     background-color: #fff;

@@ -16,6 +16,9 @@
       <el-tab-pane label="标签管理" name="album" :lazy="true">
         <tagManagement />
       </el-tab-pane>
+      <el-tab-pane label="图片快速上传" name="imgUpload" :lazy="true">
+        <ImgUploader />
+      </el-tab-pane>
       <el-tab-pane label="用户管理" name="user" :lazy="true">  
           <div class="user-management-wrapper">
               <userManagement/>
@@ -32,6 +35,7 @@ import tagManagement from './tagManagement'
 import blogManagement from './blogManagement'
 import cloudConfig from './CloudConfig'
 import messageManagement from './messageManagement'
+import ImgUploader from './ImgUploader'
 
 export default {
   data() {
@@ -47,7 +51,8 @@ export default {
       tagManagement,
       blogManagement,
       cloudConfig,
-      messageManagement
+      messageManagement,
+      ImgUploader
   }
 };
 </script>

@@ -25,8 +25,8 @@
           :blogContent="blog"
         />
 
-        <div class="read-all-button hide animated animate1">
-          <ReadMoreButton>All Blogs ...</ReadMoreButton>
+        <div class="read-all-button hide animated animate1" >
+          <ReadMoreButton @click="()=>{}">All Blogs ...</ReadMoreButton>
         </div>
       </div>
     </div>
@@ -66,17 +66,15 @@ export default {
     }
   },
   mounted() {
-    this.refreshBlogs().then(() => {
-
-    });
+    this.refreshBlogs().then(() => {});
   },
-  watch:{
-    resumeOpen(val){
-      if(val === false){
-        document.querySelectorAll('.animate1').forEach(item => {
-          item.classList.remove("hide")
-          item.classList.add("fadeInRight")
-        })
+  watch: {
+    resumeOpen(val) {
+      if (val === false) {
+        document.querySelectorAll(".animate1").forEach(item => {
+          item.classList.remove("hide");
+          item.classList.add("fadeInRight");
+        });
       }
     }
   },
@@ -85,9 +83,12 @@ export default {
     refreshBlogs() {
       const { pageNum, pageSize } = this;
       return this.fetchBlogs({ type: 0, pageNum, pageSize });
+    },
+    handleAllBlogsClicked() {
+      this.$router.push("/categories");
     }
   },
-  
+
   components: {
     BlogCard,
     ReadMoreButton
