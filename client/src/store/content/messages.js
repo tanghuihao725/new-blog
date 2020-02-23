@@ -24,7 +24,6 @@ export default {
         fetchMessages: ({ commit }, payload = {}) => {
             return http.get('/messages/query', { params: payload })
                 .then(res => {
-                    console.log(res.data)
                     commit('setMessages', res.data)
                     return res.data
                 })

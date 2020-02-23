@@ -170,7 +170,7 @@ export default {
      * dialog打开触发事件
      */
     handleOpen() {
-      const { createdAt, updatedAt, password, ...others } = this.defaultData;
+      const { createdAt, updatedAt, password, details, ...others } = this.defaultData;
       this.ruleForm = others;
     },
     /**

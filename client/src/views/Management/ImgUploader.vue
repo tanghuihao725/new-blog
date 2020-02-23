@@ -30,11 +30,9 @@
     },
     methods: {
       handleAvatarSuccess(res) {
-        // console.log(res)
         this.imageUrl = res.url;
       },
       handleAvatarError(err) {
-        // console.log(err)
         this.$message.error({message:`${err}`})
       }
     }
