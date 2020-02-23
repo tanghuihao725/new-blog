@@ -51,6 +51,12 @@ app.use(express.static('client/dist'))
 app.use('/',express.static(path.join(__dirname,'client/dist/index.html')))
 
 
+/**
+ * 老博客地址
+ */
+app.use(express.static('oldBlog/dist'))
+app.use('/old',express.static(path.join(__dirname,'oldBlog/dist/index.html')))
+
 const port = process.env.PORT || '5000'
 
 app.listen(port, ()=>{
