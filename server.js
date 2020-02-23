@@ -57,7 +57,8 @@ app.use('/',express.static(path.join(__dirname,'client/dist/index.html')))
 app.use(express.static('oldBlog/dist'))
 app.use('/old',express.static(path.join(__dirname,'oldBlog/dist/index.html')))
 
-const port = process.env.PORT || '5000'
+const port = process.env.PORT || '80'
+
 
 app.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
