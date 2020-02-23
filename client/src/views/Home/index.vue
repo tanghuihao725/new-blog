@@ -19,6 +19,10 @@
     <div class="categories-container">
       <Categories/>
     </div>
+
+    <div class="message-pad-container">
+      <MessagePad/>
+    </div>
   </div>
 </template>
 
@@ -29,6 +33,7 @@ import Categories from "./Categories/index.vue"
 import AlbumsShow from "./AlbumsShow/index.vue"
 import { mapGetters } from 'vuex';
 import scorllListener from './scrollListener'
+import MessagePad from './Message'
 
 
 export default {
@@ -56,7 +61,7 @@ export default {
    
   },
   components: {
-    Resume, Blogs, AlbumsShow, Categories
+    Resume, Blogs, AlbumsShow, Categories, MessagePad
   }
 };
 </script>
@@ -110,14 +115,17 @@ export default {
     }
   }
 
-  .categories-container{
-    margin-bottom: 500px;
-
+  .categories-container,
+  .message-pad-container {
     width: 100%;
     height: 680px;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .message-pad-container{
+    background-color:orange;
   }
 }
 </style>

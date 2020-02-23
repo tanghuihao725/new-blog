@@ -11,7 +11,9 @@ const users = require('./routes/api/user')
 const tags = require('./routes/api/tags')
 const albums = require('./routes/api/albums')
 const blogs = require('./routes/api/blogs')
+const messages = require('./routes/api/messages')
 const upload = require('./routes/api/upload/index')
+
 
 // 解析urlencoded和raw/json
 app.use(bodyParser.urlencoded({extended:false}))
@@ -34,6 +36,7 @@ app.use('/users', users)
 app.use('/tags', tags)
 app.use('/albums', albums)
 app.use('/blogs', blogs)
+app.use('/messages', messages)
 
 /**
  * 图片上传接口
