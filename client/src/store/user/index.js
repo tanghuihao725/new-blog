@@ -7,7 +7,7 @@ export default {
         // 用户登陆框dialog是否显示
         showUserDialog: false,
         // 当前用户信息
-        stateUserCurrent:{},
+        stateUserCurrent:{}
     },
     getters:{
         getUserDialogStatu: state => state.showUserDialog,
@@ -16,7 +16,7 @@ export default {
     },
     mutations:{
         setUserDialog: (state,statu)=>{state.showUserDialog = statu},
-        setUserCurrent: (state, payload) => {state.stateUserCurrent = payload},
+        setUserCurrent: (state, payload) => {state.stateUserCurrent = payload}
     },
     actions:{
         initCurrent: ({commit})=>{

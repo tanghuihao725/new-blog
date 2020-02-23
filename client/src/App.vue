@@ -59,8 +59,9 @@ export default {
 body{
   margin: 0;
   padding: 0;
-  background-color: #eee;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+
 }
 /**全局input框 */
 // .el-input{

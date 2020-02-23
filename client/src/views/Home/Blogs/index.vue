@@ -98,7 +98,7 @@ export default {
 <style lang="less">
 .blogs-container {
   transition: all 3s;
-  margin-bottom: 600px;
+  margin-bottom: 60px;
 }
 
 .blogs-wrapper {
@@ -123,7 +123,6 @@ export default {
       font-size: 70px;
       line-height: 70px;
       font-weight: 1000;
-      // display: none;
     }
     .el-carousel__indicators--outside button {
       background-color: #fa4b2a;
@@ -139,13 +138,14 @@ export default {
     }
   }
   .blogs-without-cover-img {
+    // border: 1px solid red;
     display: flex;
     flex-wrap: wrap;
     max-width: 780px;
     justify-content: flex-end;
 
     .hide {
-      display: none;
+      visibility: hidden;
     }
     .blog-card:nth-child(2) {
       animation-delay: 0.2s;
@@ -157,6 +157,7 @@ export default {
     .read-all-button {
       font-size: 12px;
       animation-delay: 1s;
+      margin-right: 9px;
     }
   }
 }

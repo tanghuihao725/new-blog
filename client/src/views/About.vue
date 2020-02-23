@@ -1,6 +1,7 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>This is an upload Image page</h1>
+    <p>{{imageUrl || '暂无url'}}</p>
     <el-upload
       class="avatar-uploader"
       :action="`${baseUrl}/upload/img/`"

@@ -5,16 +5,34 @@ export default {
     state:{
         // 获取到到所有专辑内容
         stateBlogs: [],
-        stateTotal: 0
+        stateTotal: 0,
+        stateBlogsByAlbum: {},
     },
     getters:{
         blogs: state => state.stateBlogs,
-        total: state => state.stateTotal
+        total: state => state.stateTotal,
+        blogsByAlbum: state => state.stateBlogsByAlbum
+
     },
     mutations:{
         setBlogs: (state, data) => {
             state.stateBlogs = data.data
             state.stateTotal = data.total
+
+            // 先置空 再统计
+            state.stateBlogsByAlbum = {}
+            data.data.forEach(item => {
+                const albumId = item.album, { stateBlogsByAlbum } =state
+                if(!stateBlogsByAlbum[albumId]){
+                    stateBlogsByAlbum[albumId] = {
+                        blogs: [item],
+                        total: 1
+                    }
+                }else{
+                    stateBlogsByAlbum[albumId].blogs.push(item)
+                    stateBlogsByAlbum[albumId].total += 1
+                }
+            })
         }
 
     },

@@ -65,12 +65,17 @@ router.get('/unregister', passport.authenticate("jwt", { session: false }), (req
  * 查找所有用户
  *  */
 router.get('/query', (req, res) => {
-    // query/type 0 正常搜索 1 全部搜索(包括被假删除用户)
+    // query/type 0 正常搜索 1 全部搜索(包括被假删除用户) 2搜索博主信息
     const { type = '0' } = req.query
     let sql = `select * from users `
-    if (type !== '1') {
+    if (type == '0') {
         // 过滤掉被假删除的
         sql += `where isdelete = 0`
+    }
+    if(type == '2') {
+        sql = `select 
+            email, telephone, nickname, avator, sex, details
+        from users where id = 1`
     }
     db.connect(sql).then(data => res.json({ msg: '调用接口成功', data, length: data.length })).catch(() => res.status(400).json({ msg: '获取数据失败' }))
 })
@@ -80,7 +85,6 @@ router.get('/query', (req, res) => {
  *  */
 router.post('/update', (req, res) => {
     const id = req.query.id
-    const telephone = req.body.telephone
     
     if(req.body&&req.body.password){
         bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -92,7 +96,7 @@ router.post('/update', (req, res) => {
         })
     }else{
         db.connect(utils.updateObjToSql(req.body, 'users', `id = ${id}`))
-                .then(() => res.json({ id: req.query.id, msg: '更新成功' })).catch(() => res.status(400).json({ msg: '更新失败' }))
+                .then(() => res.json({ id: req.query.id, msg: '更新成功' })).catch((err) => res.status(400).json({ msg: err }))
     }
 
 })

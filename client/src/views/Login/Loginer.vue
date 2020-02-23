@@ -109,10 +109,10 @@ export default {
             const user = res.data.data; //用户信息
             localStorage.blogToken = res.data.token;
             this.setUserCurrent(user);
-            this.$notify.success({
-              title: "Success",
-              message: `Welcome back, ${user.nickname || user.telephone}`
-            });
+            // this.$notify.success({
+            //   title: "Success",
+            //   message: `Welcome back, ${user.nickname || user.telephone}`
+            // });
             this.$router.push("/");
           })
           .catch(err => {

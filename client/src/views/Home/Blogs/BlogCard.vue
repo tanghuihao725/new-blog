@@ -23,7 +23,12 @@
           <span v-if="updatedTime">于{{ updatedTime }} 编辑</span>
         </p>
 
-        <p class="blog-body">{{blogContent.description || blogContent.body || "没有内容"}}</p>
+        <div class="blog-body">
+          <div class="blog-description" v-if="blogDescription">
+            <p class="desc-para" v-for="(para, index) in blogDescription" :key="index">{{para}}</p>
+          </div>
+          <div class="body-no-description" v-else>{{blogContent.body || "没有内容"}}</div>
+        </div>
 
         <div class="read-more-wrapper">
           <ReadMoreButton @click="handleClickButton">Read More</ReadMoreButton>
@@ -61,7 +66,7 @@ export default {
     createdTime() {
       return this.blogContent.createdAt.split(" ")[0];
     },
-    updatedTime() { 
+    updatedTime() {
       const updated = this.blogContent.updatedAt.split(" ")[0];
       if (updated === this.createdTime) return false;
       return updated;
@@ -69,11 +74,16 @@ export default {
     albumData() {
       const { albumName, color, icon, notPush, hide } = this.blogContent;
       return { albumName, color, icon, notPush, hide };
+    },
+    blogDescription() {
+      const description = this.blogContent.description;
+      if (!description) return false;
+      return description.split("\n");
     }
   },
-  methods:{
-    handleClickButton(){
-      this.$router.push({path: '/blog', query: {id: this.blogContent.id}})
+  methods: {
+    handleClickButton() {
+      this.$router.push({ path: "/blog", query: { id: this.blogContent.id } });
     }
   },
   components: {
@@ -142,7 +152,12 @@ export default {
         font-size: 0.9em;
         line-height: 1.3em;
         font-weight: 200;
-       word-wrap: break-word; 
+        word-wrap: break-word;
+        text-indent: 2em;
+        .desc-para {
+          margin: 0.45em 0;
+          // text-indent: 2em;
+        }
       }
       .read-more-wrapper {
         position: absolute;
@@ -168,8 +183,8 @@ export default {
       }
     }
   }
-  .blog-body{
-      height: 7.5em!important;
+  .blog-body {
+    height: 7.5em !important;
   }
 }
 .mobile {

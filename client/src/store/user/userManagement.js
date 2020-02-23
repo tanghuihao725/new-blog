@@ -4,10 +4,13 @@ export default {
     namespaced:true,
     state:{
         allUsers:{},
-        editorUserInfo:{}
+        editorUserInfo:{},
+        // cloudConfig
+        stateDetails:{}
     },
     getters:{
         getAllUsers: state=>state.allUsers,
+        getDetails: state => state.stateDetails,
     },
     mutations:{
         setAllUsers:(state, res)=>{
@@ -15,6 +18,9 @@ export default {
         },
         showEditDialog:(state, bool) => {
             state.editDialogVisible = bool
+        },
+        setDetails: (state, payload) => {
+             state.stateDetails = payload 
         }
     },
     actions:{
@@ -23,6 +29,14 @@ export default {
             const { type = 0 } = payload
             return http.get('users/query', { params:{ type } })
             .then(res => commit('setAllUsers', res.data))
+        },
+        // 获取博主详细信息
+        fetchManagerDetails:({commit})=>{
+            return http.get('users/query', {params: { type: 2 }})
+            .then(res => {
+                commit('setDetails', JSON.parse(res.data.data[0].details))
+                return res
+            })
         },
         // 删除用户信息
         deleteUser:({commit}, payload={}) => {

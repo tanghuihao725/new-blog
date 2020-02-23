@@ -9,7 +9,7 @@
   >
     <el-form ref="form" :model="form" label-width="80px">
       <el-form-item label="预览">
-        <Album :albumData="form" :chooseAble="true"/>
+        <Album :albumData="form" :chooseAble="true" />
       </el-form-item>
       <el-form-item label="专辑名称">
         <el-input v-model="form.albumName"></el-input>
@@ -32,6 +32,30 @@
             :value="item.value"
           ></el-option>
         </el-select>
+      </el-form-item>
+
+      <el-form-item label="小图标">
+        <el-upload
+          class="avatar-uploader"
+          :action="`${baseUrl}/upload/img/`"
+          :show-file-list="false"
+          :on-success="handleSmallCoverImageSuccess"
+        >
+          <img v-if="form.smallCoverImage" :src="form.smallCoverImage" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
+
+      <el-form-item label="大图标">
+        <el-upload
+          class="avatar-uploader"
+          :action="`${baseUrl}/upload/img/`"
+          :show-file-list="false"
+          :on-success="handleCoverImageSuccess"
+        >
+          <img v-if="form.coverImage" :src="form.coverImage" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
       </el-form-item>
 
       <el-form-item label="控制">
@@ -58,7 +82,8 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
-import Album from '@/components/Album'
+import Album from "@/components/Album";
+import myconfig from '@/myconfig'
 
 export default {
   props: {
@@ -80,6 +105,8 @@ export default {
         hide: false,
         orderFactor: 50,
         color: "#6f93bd",
+        smallCoverImage: "",
+        coverImage:"",
         notPush: false
       },
       options: [
@@ -95,14 +122,17 @@ export default {
     // 是否为编辑状态
     isEdit() {
       return !!this.defaultData;
+    },
+    baseUrl(){
+      return myconfig.baseUrl
     }
   },
-  watch:{
+  watch: {
     // 如果仅自己可见打开，那么不推到主页一定也会打开
     "form.hide": {
-      handler: function(val){
-        if(val){
-          this.form.notPush = val
+      handler: function(val) {
+        if (val) {
+          this.form.notPush = val;
         }
       }
     }
@@ -114,8 +144,14 @@ export default {
     },
     handleOpen() {
       if (this.isEdit) {
-        const { createdAt, updatedAt, notPush, hide, ...others } = this.defaultData
-        Object.assign(this.form, others,{
+        const {
+          createdAt,
+          updatedAt,
+          notPush,
+          hide,
+          ...others
+        } = this.defaultData;
+        Object.assign(this.form, others, {
           hide: Boolean(hide),
           notPush: Boolean(notPush)
         });
@@ -129,9 +165,19 @@ export default {
           hide: false,
           orderFactor: 50,
           color: "#6f93bd",
-          notPush: false
-        }
+          notPush: false,
+          smallCoverImage: "",
+          coverImage: ""
+        };
       }
+    },
+    handleSmallCoverImageSuccess(res){
+      // 图片上传成功回调
+      this.form.smallCoverImage = res.url
+    },
+    handleCoverImageSuccess(res){
+      // 图片上传成功回调
+      this.form.coverImage = res.url
     },
     onSubmit() {
       /**
@@ -159,8 +205,34 @@ export default {
         .catch(err => this.$message.error({ message: err.msg || err }));
     }
   },
-  components:{
+  components: {
     Album
   }
 };
 </script>
+
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>

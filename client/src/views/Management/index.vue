@@ -7,6 +7,9 @@
       <el-tab-pane label="专辑管理" name="tag" :lazy="true">
         <albumManagement/>
       </el-tab-pane>
+      <el-tab-pane label="云控管理" name="cloud" :lazy="true">
+        <cloudConfig/>
+      </el-tab-pane>
       <el-tab-pane label="标签管理" name="album" :lazy="true">
         <tagManagement />
       </el-tab-pane>
@@ -24,6 +27,7 @@ import userManagement from './userManagement'
 import albumManagement from './albumManagement'
 import tagManagement from './tagManagement'
 import blogManagement from './blogManagement'
+import cloudConfig from './CloudConfig'
 
 export default {
   data() {
@@ -40,7 +44,8 @@ export default {
       userManagement,
       albumManagement,
       tagManagement,
-      blogManagement
+      blogManagement,
+      cloudConfig
   }
 };
 </script>

@@ -43,7 +43,7 @@ router.get('/delete', (req, res) => {
 })
 
 /**
- * 条件获取album
+ * 条件获取album type=0 首页查询 type = 1 分类查询
  */
 router.get('/query', (req, res) => {
     let sql = `select * from ${TABLENAME}` 
@@ -52,8 +52,12 @@ router.get('/query', (req, res) => {
             return `id = ${albumsId}`
         })
         sql += ` where ${albumArr.join(' or ')}`
+    }else if(req.query && req.query.type == '0'){
+        sql += ` where notPush=0 and hide=0 `
+    }else if(req.query && req.query.type == '1'){
+        sql += ` where hide = 0 `
     }
-    sql += ` order by updatedat desc`
+    sql += ` order by orderFactor asc, updatedat desc`
     db.connect(sql)
       .then(data => res.json({
           msg: '调用接口成功',
