@@ -9,7 +9,7 @@
     },
     production: {
         IMAGE_URL: 'http://tanghuihao.com',
-        PORT: '8082',
+        PORT: '80',
         API_BASE_URL: ''
     }
  }
