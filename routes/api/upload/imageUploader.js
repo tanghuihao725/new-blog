@@ -9,7 +9,7 @@ const formatTime = require('silly-datetime')
 
 
 // 配置文件
-const env = process.env.NODE_ENV || 'dev'
+const env = process.env.NODE_ENV || 'production'
 const config = require('../../../myconfig')[env]
 
 module.exports = (req, res) => {
