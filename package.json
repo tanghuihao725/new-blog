@@ -34,7 +34,6 @@
     "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-    "qiniu": "^7.3.0",
     "silly-datetime": "^0.1.2"
   }
 }
