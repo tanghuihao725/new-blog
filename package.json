@@ -4,10 +4,11 @@
   "description": "唐慧豪的博客",
   "main": "server.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
+    "client-install": "sudo npm install --prefix client",
     "client": "npm start --prefix client",
-    "start": "node server.js",
-    "server": "nodemon server.js",
+    "build": "npm run client-install && sudo npm install && sudo npm run build --prefix client",
+    "start": "sudo sh run-production.sh",
+    "server": "unset NODE_ENV && export NODE_ENV=dev && nodemon server.js",
     "dev": "concurrently \"npm run server\" \"npm run client \""
   },
   "repository": {
@@ -24,16 +25,16 @@
   },
   "homepage": "https://github.com/tanghuihao725/new-blog#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-    "concurrently": "^4.1.1",
+    "concurrently": "^4.1.2",
     "express": "^4.17.1",
     "formidable": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
-    "mysql": "^2.17.1",
-    "passport": "^0.4.0",
+    "mysql": "^2.18.1",
+    "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-    "qiniu": "^7.2.2",
+    "qiniu": "^7.3.0",
     "silly-datetime": "^0.1.2"
   }
 }

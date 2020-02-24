@@ -62,7 +62,6 @@ router.get('/query', (req, res) => {
     }
     db.connect(`select count(id) as total from ${TABLENAME}`)
         .then(totalData => {
-            console.log(totalData)
             db.connect(sql)
                 .then(data => res.json({
                     msg: "调用接口成功",

@@ -1,9 +1,13 @@
 import axios from 'axios'
-import config from '../../myconfig'
+
+// 配置文件
+const env = process.env.NODE_ENV || 'dev'
+const config = require('../../../../myconfig')[env]
+
 
 // 自定义配置
 const configs = {
-    baseURL: config.baseUrl,
+    baseURL: config.API_BASE_URL,
     headers:{ }
 }
 

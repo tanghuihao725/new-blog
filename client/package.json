@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "start": "npm run serve"
+    "start": "export NODE_ENV=dev && npm run serve"
   },
   "dependencies": {
     "axios": "^0.19.0",

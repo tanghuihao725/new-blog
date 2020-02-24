@@ -7,7 +7,10 @@ const path = require('path')
 const formidable = require('formidable')
 const formatTime = require('silly-datetime')
 
-const config = require('../../../myconfig')
+
+// 配置文件
+const env = process.env.NODE_ENV || 'dev'
+const config = require('../../../myconfig')[env]
 
 module.exports = (req, res) => {
     // 创建上传表单
@@ -53,7 +56,7 @@ module.exports = (req, res) => {
         /* 更改名字和路径 */
         fs.rename(file.path, newPath,(err)=>{
             if(err) return res.status(400).json({msg: '图片上传失败'})
-            return res.json({msg: '图片上传成功!', url:`${config.dev_url}/serverImage/${imageName}`})
+            return res.json({msg: '图片上传成功!', url:`${config.IMAGE_URL}/serverImage/${imageName}`})
         })
     })
 }

@@ -14,6 +14,10 @@ const blogs = require('./routes/api/blogs')
 const messages = require('./routes/api/messages')
 const upload = require('./routes/api/upload/index')
 
+// 配置文件
+const env = process.env.NODE_ENV || 'production'
+const config = require('./myconfig')[env]
+
 
 // 解析urlencoded和raw/json
 app.use(bodyParser.urlencoded({extended:false}))
@@ -51,9 +55,17 @@ app.use(express.static('client/dist'))
 app.use('/',express.static(path.join(__dirname,'client/dist/index.html')))
 
 
-const port = process.env.PORT || '5000'
+/**
+ * 老博客地址
+ */
+app.use(express.static('oldBlog/dist'))
+app.use('/old',express.static(path.join(__dirname,'oldBlog/dist/index.html')))
+
+const port = config.PORT || '1234'
+
 
 app.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
     console.log(__dirname+'/client/dist/index.html')
+    console.log(process.env.NODE_ENV)
 })
