@@ -1,4 +1,6 @@
 // vue.config.js
+const webpack = require("webpack");
+
 module.exports = {
     // 修改的配置
     // 将baseUrl: '/api',改为baseUrl: '/',
@@ -10,9 +12,19 @@ module.exports = {
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
-                  '^/api': ''
+                    '^/api': ''
                 }
             }
         }
+    },
+    configureWebpack: {
+        externals: {
+            'vue': 'Vue',
+            'vue-router': 'VueRouter',
+            'vuex': 'Vuex',
+            'axios': 'axios',
+            'element-ui': 'ELEMENT',
+            'less':'less'
+        },
     }
 }
