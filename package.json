@@ -4,10 +4,11 @@
   "description": "唐慧豪的博客",
   "main": "server.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
+    "client-install": "sudo npm install --prefix client",
     "client": "npm start --prefix client",
-    "start": "node server.js",
-    "server": "nodemon server.js",
+    "build": "npm run client-install && sudo npm install",
+    "start": "export NODE_ENV=production && sudo forever start server.js",
+    "server": "export NODE_ENV=dev && nodemon server.js",
     "dev": "concurrently \"npm run server\" \"npm run client \""
   },
   "repository": {
