@@ -15,7 +15,7 @@ const messages = require('./routes/api/messages')
 const upload = require('./routes/api/upload/index')
 
 // 配置文件
-const env = process.env.NODE_ENV || 'dev'
+const env = process.env.NODE_ENV || 'production'
 const config = require('./myconfig')[env]
 
 

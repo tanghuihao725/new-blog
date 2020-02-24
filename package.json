@@ -7,7 +7,7 @@
     "client-install": "sudo npm install --prefix client",
     "client": "npm start --prefix client",
     "build": "npm run client-install && sudo npm install && sudo npm run build --prefix client",
-    "start": "sh run-production.sh",
+    "start": "sudo sh run-production.sh",
     "server": "export NODE_ENV=dev && nodemon server.js",
     "dev": "concurrently \"npm run server\" \"npm run client \""
   },
