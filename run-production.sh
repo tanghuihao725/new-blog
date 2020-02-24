@@ -11,4 +11,5 @@ export NODE_ENV=production
 echo '现在环境为'$NODE_ENV
 
 echo '启动服务器'
+sudo pm2 stop all
 sudo pm2 start server.js --name thhsblog
