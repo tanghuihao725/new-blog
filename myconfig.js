@@ -8,7 +8,7 @@
         API_BASE_URL: '/api'
     },
     production: {
-        IMAGE_URL: 'http://tanghuihao.com',
+        IMAGE_URL: 'https://tanghuihao.com',
         PORT: '5000',
         API_BASE_URL: ''
     }
