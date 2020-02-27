@@ -1,9 +1,6 @@
 <template>
   <div :class="{
-    navLeftContainer: true,
-    animated: true,
-    bounceInLeft: false,
-    fadeInDown: isMobile
+    navLeftContainer: true
   }">
     <div class="top-nav">
       <span

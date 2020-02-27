@@ -11,6 +11,7 @@
     <div class="categories-blogs-content">
       <div class="articals-wrapper">
         <h1 class="all-title animated bounce"  v-if="active===0">All Articals</h1>
+        <h1 class="all-title bounce" v-if="blogs.length===0">什么都没有～</h1>
         <AticalItem
           :class="`artical-item animated fadeInRight`"
           v-for="blog in blogs"

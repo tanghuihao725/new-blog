@@ -11,7 +11,10 @@
           <span v-if="updatedTime">于{{ updatedTime }} 编辑</span>
         </p>
         <div class="tab-bar">
-          <h3 class="tabItem" @click="routerTo(`/blogs?albumId=${blogContent.album}`)">更多{{blogContent.albumName}}分类</h3>
+          <h3
+            class="tabItem"
+            @click="routerTo(`/blogs?albumId=${blogContent.album}`)"
+          >更多{{blogContent.albumName}}分类</h3>
           <h3 class="tabItem" @click="routerTo('/blogs')">All Artials</h3>
           <h3 class="tabItem" @click="routerTo('/categories')">Categories</h3>
         </div>
@@ -19,7 +22,8 @@
     </nav>
     <div class="blog-view-container">
       <div class="content-container">
-        <div class="cover-image-wrapper" v-if="blogContent.coverImage" v-show="false">
+        <ReadMoreButton v-if="isMobile" @click="handleGoBack">返回</ReadMoreButton>
+        <div class="cover-image-wrapper" v-if="blogContent.coverImage">
           <img :src="blogContent.coverImage" class="cover-image" />
         </div>
 
@@ -55,6 +59,7 @@ import { mapActions, mapGetters } from "vuex";
 import Album from "@/components/Album";
 import Tag from "@/components/Tags/Tag";
 import navLeft from "@/components/Nav/navLeft";
+import ReadMoreButton from "@/components/Buttons/ReadMoreButton";
 
 export default {
   data() {
@@ -63,7 +68,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("isMobile"),
+    ...mapGetters(["isMobile"]),
     albumData() {
       const { albumName, color, icon, notPush, hide } = this.blogContent;
       return { albumName, color, icon, notPush, hide };
@@ -92,6 +97,9 @@ export default {
     ...mapActions("content/blogs", ["getSingleBlog"]),
     routerTo(path) {
       this.$router.push(path);
+    },
+    handleGoBack() {
+      this.$router.back(-1);
     }
   },
   mounted() {
@@ -109,23 +117,24 @@ export default {
         this.$message.error({ message: "获取博客失败" });
       });
   },
-  updated(){
-    const imgs = document.querySelectorAll('img')
+  updated() {
+    const imgs = document.querySelectorAll("img");
     imgs.forEach(img => {
-      img.style.maxWidth = '80%';
-      img.style.maxHeight = '400px';
-      img.style.margin = '1em';
-    })
-    document.querySelector('.v-show-content').style.backgroundColor = "#fff"
-    document.querySelectorAll('p').forEach(p => {
-      p.style.textIndent = '2em'
-      p.style.fontSize = '1em'
-    })
+      img.style.maxWidth = "80%";
+      img.style.maxHeight = "400px";
+      img.style.margin = "1.5em 0 1.5em 5em"
+    });
+    document.querySelector(".v-show-content").style.backgroundColor = "#fff";
+    document.querySelectorAll("p").forEach(p => {
+      p.style.textIndent = "2em";
+      p.style.fontSize = "1em";
+    });
   },
   components: {
     Album,
     Tag,
-    navLeft
+    navLeft,
+    ReadMoreButton
   }
 };
 </script>
@@ -149,31 +158,29 @@ export default {
     font-weight: 100;
     cursor: pointer;
   }
-  .tabItem:hover{
+  .tabItem:hover {
     color: #ac4143;
-    .tabItem::before{
+    .tabItem::before {
       background-color: #ac4143;
     }
   }
 }
 
 .blog-view-container {
-  width: 60%;
-  max-width: 1000px;
   height: 100%;
   min-height: 80vh;
   background-color: rgb(255, 255, 255);
-  margin-left: 27%;
 
   .content-container {
     max-width: 1600px;
     margin: 0 auto;
     padding: 30px 1em;
     font-size: 16px;
+
     .cover-image-wrapper {
       text-align: center;
       .cover-image {
-        width: 100%;
+        width: 80%;
       }
     }
 
@@ -187,22 +194,20 @@ export default {
       }
     }
 
-    .body-container {
-      .v-note-wrapper {
-        border: none;
-      }
+    .v-note-wrapper {
+      border: none;
     }
   }
 }
-.body-container{
-  p{
+.body-container {
+  p {
     text-indent: 2em;
   }
 }
 .markdown-body img {
-    max-width: 30%!important;
-    box-sizing: content-box;
-    background-color: rgb(255, 255, 255);
+  max-width: 30% !important;
+  box-sizing: content-box;
+  background-color: rgb(255, 255, 255);
 }
 
 .blog-time {
@@ -215,10 +220,11 @@ export default {
 </style>
 
 <style lang="less">
-.body-view-container {
-  .markdown-body img {
-    max-width: 40%;
-    background-color: transparent;
+.rootPc {
+  .blog-view-container {
+    margin-left: 27%;
+    width: 60%;
+    max-width: 1000px;
   }
 }
 </style>
