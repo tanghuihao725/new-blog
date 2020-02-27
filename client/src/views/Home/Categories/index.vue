@@ -5,8 +5,8 @@
         v-for="item in albumList"
         :key="item.id"
         class="list-item animate3 hide"
-        @click="handleAlbumClick(item.id)"
         :itemData="{
+              id: item.id,
               albumName: item.albumName,
               icon: item.icon,
               blogCount: blogsByAlbum[item.id] ? blogsByAlbum[item.id].total : 0,

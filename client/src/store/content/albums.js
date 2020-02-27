@@ -21,7 +21,10 @@ export default {
          */
         fetchAlbums:({commit}, payload={})=>{
             return http.get('/albums/query', { params: payload })
-                .then(res => commit('setAlbums', res.data))
+                .then(res => {
+                    commit('setAlbums', res.data)
+                    return res
+                })
         },
         /**
          * 删除专辑

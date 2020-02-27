@@ -9,16 +9,7 @@
     :width="baseInfo.isMobile? '90%' : '50%'"
   >
     <div class="avarar-wrapper">
-      <el-upload
-        class="avatar-uploader"
-        :action="`${baseUrl}/upload/img/`"
-        :show-file-list="false"
-        :on-success="handleAvatarSuccess"
-        :on-error="handleAvatarError"
-      >
-        <img v-if="getAvatar" :src="getAvatar" class="avatar" />
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      </el-upload>
+      <ImgUploader :imageUrl.sync="ruleForm.avator" :defaultImage="defaultAvatar"/>
     </div>
 
     <div class="form-container">
@@ -76,7 +67,8 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import { avatarDefault } from "../../utils/common/user";
-import config from "@/myconfig";
+import ImgUploader from '@/components/ImgUploader'
+
 
 export default {
   data() {
@@ -93,8 +85,7 @@ export default {
       },
       rules: {
         email: []
-      },
-      avatarUrl: ""
+      }
     };
   },
   props: {
@@ -120,17 +111,13 @@ export default {
   },
   computed: {
     ...mapGetters(["baseInfo"]),
-    baseUrl() {
-      return config.baseUrl;
-    },
     isMobile() {
       return this.baseInfo.isMobile;
     },
     /**
      * 用户是否有头像，如果没有传入默认头像，返回值默认头像的静态地址
      */
-    getAvatar() {
-      if (this.ruleForm.avator.length) return this.ruleForm.avator;
+    defaultAvatar() {
       return avatarDefault(this.ruleForm.sex);
     }
   },
@@ -160,12 +147,6 @@ export default {
         })
         .catch(err => this.$message.error({ message: err.msg || err }));
     },
-    handleAvatarSuccess(res) {
-      this.ruleForm.avator = res.url;
-    },
-    handleAvatarError(err) {
-      this.$message.error({ message: err.msg || err });
-    },
     /**
      * dialog打开触发事件
      */
@@ -178,7 +159,10 @@ export default {
      */
     handleClose() {
       this.$emit("update:visible", false);
-    }
+    },
+  },
+  components:{
+    ImgUploader
   }
 };
 </script>
@@ -189,33 +173,7 @@ export default {
   padding: 0 50px;
   text-align: left;
 }
-.avatar-uploader{
-  text-align: center;
-  margin-bottom: 20px;
-}
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 150px;
-  height: 150px;
-  line-height: 150px;
-  text-align: center;
-}
-.avatar {
-  width: 80px;
-  height: 80px;
-  display: block;
-}
+
 </style>
 
 <style lang="less">

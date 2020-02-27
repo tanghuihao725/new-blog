@@ -30,17 +30,7 @@
       </el-form-item>
 
       <el-form-item label="封面图片">
-        <el-upload
-          class="avatar-uploader"
-          :action="`${baseUrl}/upload/img`"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-        >
-          <img v-if="form.coverImage" :src="form.coverImage" class="avatar" style="maxWidth:400px;maxHeight:300px;"/>
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-
-        <span>比例最好3:2！ </span> <el-button type="text" @click="form.coverImage=''">清空图片</el-button>
+        <ImgUploader :imageUrl.sync="form.coverImage" />
       </el-form-item>
 
       <el-form-item :label="`排序${form.orderFactor}`">
@@ -56,7 +46,7 @@ import { mapGetters, mapActions } from "vuex";
 import TagSelector from "@/components/Tags/TagSelector";
 import AlbumSelector from "@/components/Album/AlbumSelector";
 import MDEditor from "@/components/MDEditor";
-import myconfig from '@/myconfig'
+import ImgUploader from '@/components/ImgUploader'
 
 export default {
   data() {
@@ -76,9 +66,6 @@ export default {
   },
   computed: {
     ...mapGetters(["baseInfo"]),
-    baseUrl(){
-      return myconfig.baseUrl
-    },
     isMobile() {
       return this.baseInfo.isMobile;
     },
@@ -141,10 +128,6 @@ export default {
     },
     handleAlbumChange(albumId) {
       this.form.album = albumId;
-    },
-    handleAvatarSuccess(res){
-      // 图片上传成功回调
-      this.form.coverImage = res.url
     },
     /**
      * 由于博客内容如果有单引号会和sql语句冲突，所以得过滤 加上转义字符
@@ -240,7 +223,8 @@ export default {
   components: {
     TagSelector,
     AlbumSelector,
-    MDEditor
+    MDEditor,
+    ImgUploader
   }
 };
 </script>
@@ -282,31 +266,5 @@ export default {
 </style>
 
 
-<style lang="less">
-// 图片上传器的样式
-.avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
-</style>
 
 

@@ -1,40 +1,60 @@
 <template>
-  <div class="blog-view-container">
-    <div class="content-container">
-      <div class="cover-image-wrapper" v-if="blogContent.coverImage" v-show="false">
-        <img :src="blogContent.coverImage" class="cover-image" />
-      </div>
-
-      <div class="title-container">
-        <p class="blog-title">{{blogContent.title}}</p>
-        <p class="blog-time">
-          <span class="created-at">发布于: {{ createdTime }}</span>
-          <span v-if="updatedTime">于{{ updatedTime }} 编辑</span>
-        </p>
+  <div class="blog-nav-view-container">
+    <nav v-if="!isMobile">
+      <navLeft :navData="navData">
         <div class="label-wrapper">
           <Album :albumData="albumData" size="small" />
           <Tag v-for="tag in blogContent.tagDetails" :key="tag.id" :tagData="tag" size="small" />
         </div>
-      </div>
+        <p class="blog-time">
+          <span class="created-at">发布于: {{ createdTime }}</span>
+          <span v-if="updatedTime">于{{ updatedTime }} 编辑</span>
+        </p>
+        <div class="tab-bar">
+          <h3 class="tabItem" @click="routerTo(`/blogs?albumId=${blogContent.album}`)">更多{{blogContent.albumName}}分类</h3>
+          <h3 class="tabItem" @click="routerTo('/blogs')">All Artials</h3>
+          <h3 class="tabItem" @click="routerTo('/categories')">Categories</h3>
+        </div>
+      </navLeft>
+    </nav>
+    <div class="blog-view-container">
+      <div class="content-container">
+        <div class="cover-image-wrapper" v-if="blogContent.coverImage" v-show="false">
+          <img :src="blogContent.coverImage" class="cover-image" />
+        </div>
 
-      <div class="body-container">
-        <mavon-editor
-          class="mavon-wrapper"
-          defaultOpen="preview"
-          :value="blogContent.body"
-          :boxShadow="false"
-          :toolbarsFlag="false"
-          :subfield="false"
-        />
+        <div class="title-container" v-if="isMobile">
+          <p class="blog-title">{{blogContent.title}}</p>
+          <p class="blog-time">
+            <span class="created-at">发布于: {{ createdTime }}</span>
+            <span v-if="updatedTime">于{{ updatedTime }} 编辑</span>
+          </p>
+          <div class="label-wrapper">
+            <Album :albumData="albumData" size="small" />
+            <Tag v-for="tag in blogContent.tagDetails" :key="tag.id" :tagData="tag" size="small" />
+          </div>
+        </div>
+
+        <div class="body-container">
+          <mavon-editor
+            class="mavon-wrapper"
+            defaultOpen="preview"
+            :value="blogContent.body || ''"
+            :boxShadow="false"
+            :toolbarsFlag="false"
+            :subfield="false"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import Album from "@/components/Album";
 import Tag from "@/components/Tags/Tag";
+import navLeft from "@/components/Nav/navLeft";
 
 export default {
   data() {
@@ -43,9 +63,18 @@ export default {
     };
   },
   computed: {
+    ...mapGetters("isMobile"),
     albumData() {
       const { albumName, color, icon, notPush, hide } = this.blogContent;
       return { albumName, color, icon, notPush, hide };
+    },
+    navData() {
+      return {
+        title: this.blogContent.title,
+        description: this.blogContent.description
+          ? this.blogContent.description.substring(0, 30)
+          : " "
+      };
     },
     createdTime() {
       return (
@@ -60,7 +89,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions("content/blogs", ["getSingleBlog"])
+    ...mapActions("content/blogs", ["getSingleBlog"]),
+    routerTo(path) {
+      this.$router.push(path);
+    }
   },
   mounted() {
     if (!this.$route.query.id) {
@@ -77,23 +109,66 @@ export default {
         this.$message.error({ message: "获取博客失败" });
       });
   },
+  updated(){
+    const imgs = document.querySelectorAll('img')
+    imgs.forEach(img => {
+      img.style.maxWidth = '80%';
+      img.style.maxHeight = '400px';
+      img.style.margin = '1em';
+    })
+    document.querySelector('.v-show-content').style.backgroundColor = "#fff"
+    document.querySelectorAll('p').forEach(p => {
+      p.style.textIndent = '2em'
+      p.style.fontSize = '1em'
+    })
+  },
   components: {
     Album,
-    Tag
+    Tag,
+    navLeft
   }
 };
 </script>
 
 <style lang="less" scoped>
-.blog-view-container {
+.blog-nav-view-container {
   width: 100%;
-  background-color: rgb(251, 251, 251);
+  display: flex;
+  font-size: 2em;
+  flex-direction: column;
+  .tabItem::before {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin: 0 1em;
+    background-color: #fff;
+  }
+  .tabItem {
+    font-size: 1.3em;
+    font-weight: 100;
+    cursor: pointer;
+  }
+  .tabItem:hover{
+    color: #ac4143;
+    .tabItem::before{
+      background-color: #ac4143;
+    }
+  }
+}
+
+.blog-view-container {
+  width: 60%;
+  max-width: 1000px;
+  height: 100%;
+  min-height: 80vh;
+  background-color: rgb(255, 255, 255);
+  margin-left: 27%;
 
   .content-container {
     max-width: 1600px;
-    width: 80%;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 30px 1em;
     font-size: 16px;
     .cover-image-wrapper {
       text-align: center;
@@ -107,26 +182,34 @@ export default {
       .blog-title {
         font-size: 2em;
       }
-      .blog-time {
-        color: #666;
-        font-size: 0.8em;
-        .created-at {
-          margin-right: 1em;
-        }
-      }
-
       .label-wrapper {
         font-size: 16px;
       }
     }
 
     .body-container {
-      margin-top: 30px;
-
       .v-note-wrapper {
         border: none;
       }
     }
+  }
+}
+.body-container{
+  p{
+    text-indent: 2em;
+  }
+}
+.markdown-body img {
+    max-width: 30%!important;
+    box-sizing: content-box;
+    background-color: rgb(255, 255, 255);
+}
+
+.blog-time {
+  color: #666;
+  font-size: 1em;
+  .created-at {
+    margin-right: 1em;
   }
 }
 </style>

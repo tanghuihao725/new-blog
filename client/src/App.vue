@@ -1,21 +1,31 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    :class="{
+    leftRight: navLeftShow,
+    rootMobile: isMobile,
+    rootPc: !isMobile
+  }"
+  >
     <nav>
-      <navbar id="mynav" v-show="true" v-if="!routeLogin" />
+      <navbar id="mynav" v-if="!navTopHide" />
     </nav>
 
-    <router-view />
+    <div class="router-content">
+      <router-view class="content" />
+    </div>
 
-    <footer>
-      <MyFooter/>
+    <footer v-if="!navLeftShow">
+      <MyFooter />
     </footer>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import navbar from "@/components/Nav";
-import MyFooter from "@/components/MyFooter"
+import navbar from "@/components/Nav/navTop";
+import navLeft from "@/components/Nav/navLeft/index.vue";
+import MyFooter from "@/components/MyFooter";
 
 export default {
   data() {
@@ -30,9 +40,22 @@ export default {
     this.animationShow = true;
   },
   computed: {
+    ...mapGetters(["isMobile"]),
     ...mapGetters("user", ["getUserDialogStatu"]),
     routeLogin() {
       return this.$route.path.indexOf("login") >= 0;
+    },
+    routeCategories() {
+      return this.$route.path.indexOf("categories") >= 0;
+    },
+    routeBlogs() {
+      return this.$route.path.indexOf("blog") >= 0;
+    },
+    navTopHide() {
+      return this.routeLogin || this.routeCategories || this.routeBlogs;
+    },
+    navLeftShow() {
+      return this.routeBlogs || this.routeCategories;
     }
   },
   methods: {
@@ -40,27 +63,29 @@ export default {
     ...mapActions("user", ["initCurrent"])
   },
   components: {
-    navbar, MyFooter
+    navbar,
+    MyFooter
   }
 };
 </script>
 
 
-<style lang="less">
 
-</style>
+
+
 
 
 <style lang="less">
 // 全局样式
 
-html{
+html {
   height: 100%;
   background-color: #fff;
   padding: 0;
   margin: 0;
+  background: url();
 }
-footer{
+footer {
   margin: 0;
 }
 body {
@@ -70,7 +95,11 @@ body {
   overflow-x: hidden;
   height: 100%;
 }
+.fade{
+  visibility: hidden;
+}
 </style>
+
 
 
 

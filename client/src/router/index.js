@@ -29,18 +29,23 @@ export default new Router({
     },
     {
       path: '/login',
-      name:'login',
+      name:'Login',
       component: () => import('../views/Login/index.vue')
     },
     {
       path: '/blog',
-      name:'blog',
+      name:'Blog',
       component: () => import('../views/BlogView/index.vue')
     },
     {
-      path: '/categories',
-      name:'categories',
-      component: () => import('../views/About.vue')
+      path: '/blogs',
+      name:'Blogs',
+      component: () => import('../views/Blogs/index.vue')
     },
+    {
+      path: '/categories',
+      name:'Categories',
+      component: () => import('../views/Categories/index.vue')
+    }
   ]
 })

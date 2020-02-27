@@ -47,7 +47,7 @@ router.get('/delete', (req, res) => {
  */
 router.get('/query', (req, res) => {
     let sql = `select * from ${TABLENAME}` 
-    if(req.query && req.query.albumsIds){
+    if(req.query.albumsIds!==undefined){
         const albumArr = req.query.albumsIds.split(',').map(albumsId => {
             return `id = ${albumsId}`
         })
@@ -58,6 +58,7 @@ router.get('/query', (req, res) => {
         sql += ` where hide = 0 `
     }
     sql += ` order by orderFactor asc, updatedat desc`
+    // console.log(sql)
     db.connect(sql)
       .then(data => res.json({
           msg: '调用接口成功',
@@ -78,9 +79,6 @@ router.post('/update', (req, res) => {
     }))
     .catch(err => res.status(400).json({msg: err.msg || err}))
 })
-
-
-
 
 
 module.exports = router

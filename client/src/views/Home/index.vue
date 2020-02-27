@@ -57,6 +57,10 @@ export default {
   mounted(){
     scorllListener()
   },
+  destroyed(){
+    // 如果离开组件，那么将滚轮监听事件给取消
+    window.onscroll = null
+  },
   methods:{
    
   },

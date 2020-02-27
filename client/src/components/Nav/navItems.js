@@ -8,12 +8,12 @@ export default [
     },{
         id: 2,
         icon: 'el-icon-menu',
-        router: '/categories',
-        title: 'Categories',
+        router: '/blogs',
+        title: 'Articals',
         authority: 1
     },{
         id: 3,
-        icon: 'el-icon-s-custom',
+        icon: 'el-icon-s-management',
         router: '/about',
         title: 'About',
         authority: 1
@@ -25,7 +25,7 @@ export default [
         authority: 6
     },{
         id: 5,
-        icon: 'el-icon-s-tools',
+        icon: 'el-icon-s-custom',
         router: '/login',
         title: "Log In",
         authority: 1

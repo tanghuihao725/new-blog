@@ -55,7 +55,7 @@ router.get('/delete', (req, res) => {
 
 // 工具函数，根据 1,2,3 获取各个id值的tag详情
 function findTagDetailsFromIds(ids) {
-    if(!ids) return Promise.resolve([])
+    if (!ids) return Promise.resolve([])
     let sql = `select * from ${TAG_TABLE}`
     const tagArr = ids.split(',').map(tagId => `id = ${tagId}`)
     sql += ` where ${tagArr.join(' or ')}`
@@ -63,8 +63,8 @@ function findTagDetailsFromIds(ids) {
 }
 
 router.post('/query', (req, res) => {
-    // type: 0公开，1所有, 2:分类公开 3:分类所有 4: 通过id查找
-    const { pageNum = 1, pageSize = 10, type = 0 } = req.body
+    // type: 0公开，1所有, 2:分类公开 3:分类所有 
+    const { pageNum = 1, pageSize = 10, type = 0, albumId, id } = req.body
     // 先查询满足条件blog
     let sql = `select 
         ${ALBUM_TABLE}.*, 
@@ -72,10 +72,11 @@ router.post('/query', (req, res) => {
         ${ALBUM_TABLE}.orderFactor as albumOrderFactor
         from ${TABLENAME} left join ${ALBUM_TABLE}
         on ${TABLENAME}.album = ${ALBUM_TABLE}.id
+        where 1=1 
         `
     if (type == 2 || type == 0) {
         // 过滤hide === 1
-        sql += ` where 
+        sql += ` and 
             ( ${ALBUM_TABLE}.hide <> 1 
             or ${ALBUM_TABLE}.hide is null )
             `
@@ -85,8 +86,12 @@ router.post('/query', (req, res) => {
                     or ${ALBUM_TABLE}.notPush is null )
                 `
         }
-    }else if(type == 4){
-        sql += ` where ${TABLENAME}.id = ${req.body.id} `
+    }
+    if (albumId!=undefined) {
+        sql += ` and ${TABLENAME}.album = ${albumId} `
+    }
+    if (id !== undefined){
+        sql += ` and ${TABLENAME}.id = ${id} `
     }
     // 排序 分页
     sql += `
@@ -137,6 +142,55 @@ router.post('/query', (req, res) => {
                 })
         })
         .catch(err => res.status(400).json({ msg: err.msg || err }))
+})
+
+
+router.get('/blogsByAlbum', (req, res) => {
+    // 则传回一个对象{albumId: {blogs:[...blog], blogCount:1}}
+    // 为避免包过大，所以不传博客的body
+    // type=0 过滤hide部分 1所有
+    const  { type=1, albumId } = req.query
+    let sql = `select 
+    ${ALBUM_TABLE}.*, 
+    ${TABLENAME}.*,
+    ${ALBUM_TABLE}.orderFactor as albumOrderFactor
+    from ${TABLENAME} left join ${ALBUM_TABLE}
+    on ${TABLENAME}.album = ${ALBUM_TABLE}.id
+    `
+    if(type=='1'){
+        sql += ` where hide <> 1`
+    }
+    // 排序 分页
+    sql += `
+        order by 
+        ${TABLENAME}.orderFactor asc,
+        ${TABLENAME}.updatedAt desc `
+
+    db.connect(sql)
+     .then(blogs => {
+        const map = {}
+        blogs.forEach(blog => {
+            const {body,...others} = blog
+            if(!map[blog.album]){
+                map[blog.album] = {
+                    blogs: [others],
+                    total: 1
+                }
+            }else{
+                map[blog.album].blogs.push(others)
+                map[blog.album].total += 1
+            }
+        })
+        const singleQuery = {}
+        if(albumId) singleQuery[albumId] = map[albumId]
+        res.json({
+            msg: '接口调用成功',
+            data: albumId ? singleQuery : map
+        })
+     })
+    
+    
+
 })
 
 

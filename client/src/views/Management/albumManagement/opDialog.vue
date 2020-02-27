@@ -35,27 +35,11 @@
       </el-form-item>
 
       <el-form-item label="小图标">
-        <el-upload
-          class="avatar-uploader"
-          :action="`${baseUrl}/upload/img/`"
-          :show-file-list="false"
-          :on-success="handleSmallCoverImageSuccess"
-        >
-          <img v-if="form.smallCoverImage" :src="form.smallCoverImage" class="avatar" />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+        <ImgUploader :imageUrl.sync="form.smallCoverImage" />
       </el-form-item>
 
       <el-form-item label="大图标">
-        <el-upload
-          class="avatar-uploader"
-          :action="`${baseUrl}/upload/img/`"
-          :show-file-list="false"
-          :on-success="handleCoverImageSuccess"
-        >
-          <img v-if="form.coverImage" :src="form.coverImage" class="avatar" />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+        <ImgUploader :imageUrl.sync="form.coverImage" />
       </el-form-item>
 
       <el-form-item label="控制">
@@ -83,7 +67,7 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import Album from "@/components/Album";
-import myconfig from '@/myconfig'
+import ImgUploader from '@/components/ImgUploader'
 
 export default {
   props: {
@@ -122,9 +106,6 @@ export default {
     // 是否为编辑状态
     isEdit() {
       return !!this.defaultData;
-    },
-    baseUrl(){
-      return myconfig.baseUrl
     }
   },
   watch: {
@@ -171,14 +152,6 @@ export default {
         };
       }
     },
-    handleSmallCoverImageSuccess(res){
-      // 图片上传成功回调
-      this.form.smallCoverImage = res.url
-    },
-    handleCoverImageSuccess(res){
-      // 图片上传成功回调
-      this.form.coverImage = res.url
-    },
     onSubmit() {
       /**
        * 预处理：专辑名空检查，Boolean值转换为数值
@@ -206,33 +179,8 @@ export default {
     }
   },
   components: {
-    Album
+    Album,ImgUploader
   }
 };
 </script>
 
-<style>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
-</style>

@@ -1,23 +1,13 @@
 <template>
   <div class="img-upload">
     <h1>This is an upload Image page</h1>
-    <p>{{imageUrl || '暂无url'}}</p>
-    <el-upload
-      class="avatar-uploader"
-      :action="`${baseUrl}/upload/img/`"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :on-error="handleAvatarError"
-    >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-    </el-upload>
-    <img :src='imageUrl' style="width:200px"/>
+    <h3>{{imageUrl || '暂无url'}}</h3>
+    <ImgUploader :imageUrl.sync="imageUrl" @error="handleError"/>
   </div>
 </template>
 
 <script>
-  import myconfig from '@/myconfig'
+  import ImgUploader from '@/components/ImgUploader'
 
   export default {
     data() {
@@ -29,42 +19,20 @@
       baseUrl(){ return myconfig.baseUrl }
     },
     methods: {
-      handleAvatarSuccess(res) {
+      handleSuccess(res) {
         this.imageUrl = res.url;
       },
-      handleAvatarError(err) {
+      handleError(err) {
         this.$message.error({message:`${err}`})
       }
+    },
+    components:{
+      ImgUploader
     }
   }
 </script>
 
 
-<style>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
-</style>
 
 <style lang="less" scoped>
 .img-upload{

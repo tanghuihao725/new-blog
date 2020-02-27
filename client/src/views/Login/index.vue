@@ -18,7 +18,7 @@
 
 <script>
 import loginNav from './LoginNav'
-import myNav from '@/components/Nav'
+import myNav from '@/components/Nav/navTop'
 import loginer from './Loginer'
 import { mapGetters } from 'vuex'
 

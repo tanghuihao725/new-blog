@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import navItemsList from "./navItems.js";
+import navItemsList from "../navItems.js";
 import { mapGetters } from "vuex";
 
 export default {

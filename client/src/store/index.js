@@ -13,7 +13,8 @@ export default new Vuex.Store({
       isMobile: !(window.matchMedia('(min-width:768px)')).matches
   },
   getters: {
-    baseInfo: state => { return { isMobile: state.isMobile } }
+    baseInfo: state => { return { isMobile: state.isMobile } },
+    isMobile: state => state.isMobile
   },
   actions: {
     

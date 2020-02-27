@@ -26,7 +26,7 @@
         />
 
         <div class="read-all-button hide animated animate1" >
-          <ReadMoreButton @click="()=>{}">All Blogs ...</ReadMoreButton>
+          <ReadMoreButton @click="routeToAllBlogs">All Articals ...</ReadMoreButton>
         </div>
       </div>
     </div>
@@ -86,6 +86,9 @@ export default {
     },
     handleAllBlogsClicked() {
       this.$router.push("/categories");
+    },
+    routeToAllBlogs(){
+      this.$router.push('/blogs') 
     }
   },
 

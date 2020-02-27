@@ -18,31 +18,23 @@ export default {
         setBlogs: (state, data) => {
             state.stateBlogs = data.data
             state.stateTotal = data.total
-
-            // 先置空 再统计
-            state.stateBlogsByAlbum = {}
-            data.data.forEach(item => {
-                const albumId = item.album, { stateBlogsByAlbum } =state
-                if(!stateBlogsByAlbum[albumId]){
-                    stateBlogsByAlbum[albumId] = {
-                        blogs: [item],
-                        total: 1
-                    }
-                }else{
-                    stateBlogsByAlbum[albumId].blogs.push(item)
-                    stateBlogsByAlbum[albumId].total += 1
-                }
-            })
+        },
+        setBlogsByAlbum: (state, data) =>{
+            state.stateBlogsByAlbum = data.data
         }
 
     },
     actions:{
         /**
-         * 获取博客
+         * 获取博客, 并自动获取全局blogsByAlbums列表
          */
-        fetchBlogs:({commit}, payload)=>{
+        fetchBlogs:({commit, dispatch}, payload)=>{
             return http.post('/blogs/query', { data: payload })
-                .then(res => commit('setBlogs', res.data))
+                .then(res =>{
+                    commit('setBlogs', res.data)
+                    dispatch('fetchBlogsByAlbum')
+                    return res
+                })
         },
         /**
          * 获取一个博客
@@ -52,19 +44,29 @@ export default {
             return http.post('/blogs/query', { data : { type, id } })
         },
         /**
-         * 删除专辑
+         * 根据albumId获取博客列表，如果不传albumId返回所有标签对应的博客列表
+         */
+        fetchBlogsByAlbum:({commit}, payload={}) => {
+            return http.get('/blogs/blogsByAlbum', { params:payload })
+                .then(res => {
+                    commit('setBlogsByAlbum', res.data)
+                    return res.data
+                })
+        },
+        /**
+         * 删除博客
          */
         deleteBlog:(context, payload={}) => {
             return http.get('/blogs/delete', { params: payload })
         },
         /**
-         * 新增专辑
+         * 创建博客
          */
         createBlog:(context, payload={}) => {
             return http.post('blogs/post', { data: payload })
         },
         /**
-         * 更新专辑
+         * 更新博客
          */
         updateBlog:(context, payload={}) => {
             return http.post('blogs/update', { data: payload })

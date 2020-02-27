@@ -22,6 +22,7 @@ export default {
   props: {
     itemData: {
       default: () => ({
+        id: 0,
         albumName: "默认",
         icon: "el-icon-folder",
         blogCount: 0,
@@ -32,7 +33,7 @@ export default {
   },
   methods:{
     handleClick(){
-      this.$emit("click")
+      this.$router.push({ path: '/blogs',query:{ albumId: this.itemData.id} })
     }
   }
 };
@@ -48,7 +49,6 @@ export default {
     min-width: 100px;
     width: 100px;
     height: 100px;
-    cursor: pointer;
     img {
       width: 100%;
       height: 100%;
