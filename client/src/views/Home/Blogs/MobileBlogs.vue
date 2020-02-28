@@ -1,5 +1,6 @@
 <template>
   <div class="mobile-blogs-itemList-wrapper">
+    <HeadLine>POSTS</HeadLine>
     <div class="blog-item-list animated fadeInRight" v-for="blog in blogs" :key="blog.id">
       <div class="blog-content">
         <div class="content-text">
@@ -24,7 +25,7 @@
     </div>
 
     <div style="textAlign:center">
-      <ReadMoreButton @click="routerTo(blog)">All Articles ({{total}})</ReadMoreButton>
+      <ReadMoreButton @click="handleAllClick">All Articles ({{total}})</ReadMoreButton>
     </div>
   </div>
 </template>
@@ -35,6 +36,7 @@ import { mapGetters, mapActions } from "vuex";
 import ReadMoreButton from "@/components/Buttons/ReadMoreButton";
 import Album from "@/components/Album";
 import Tag from "@/components/Tags/Tag";
+import HeadLine from "@/components/HeadLine"
 
 export default {
   computed: {
@@ -62,6 +64,9 @@ export default {
             path: '/blog',
             query: { id: blog.id }
         })
+    },
+    handleAllClick(){
+      this.$router.push('/blogs')
     }
   },
   mounted() {
@@ -70,7 +75,8 @@ export default {
   components: {
     ReadMoreButton,
     Album,
-    Tag
+    Tag,
+    HeadLine
   }
 };
 </script>
@@ -79,7 +85,6 @@ export default {
 <style lang="less" scoped>
 .mobile-blogs-itemList-wrapper {
   width: 100%;
-  
   .blog-item-list {
     padding: 1em 1em;
     .blog-content {

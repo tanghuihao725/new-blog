@@ -14,6 +14,7 @@
 
 <script>
 import hoverImage from "@/components/HoverImage";
+import { mapGetters } from 'vuex';
 
 export default {
   props: {

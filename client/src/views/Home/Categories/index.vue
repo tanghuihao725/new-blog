@@ -1,8 +1,7 @@
 <template>
   <div class="categories-wrapper">
     <ReadMoreButton @click="handleViewAllClick" v-if="isMobile" style="marginTop:2em">
-      All Albums
-      <i class="el-icon-right"></i>
+      All Categories
     </ReadMoreButton>
     <div class="album-lists-wrapper">
       <ListItem
@@ -35,8 +34,7 @@
 
     <div class="more-button-wrapper animate4 hide" v-if="!isMobile">
       <ReadMoreButton @click="handleViewAllClick">
-        View All
-        <i class="el-icon-right"></i>
+        All Categories
       </ReadMoreButton>
     </div>
   </div>
