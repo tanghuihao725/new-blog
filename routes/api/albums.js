@@ -52,9 +52,9 @@ router.get('/query', (req, res) => {
             return `id = ${albumsId}`
         })
         sql += ` where ${albumArr.join(' or ')}`
-    }else if(req.query && req.query.type == '0'){
+    }else if(req.query.type == '0'){
         sql += ` where notPush=0 and hide=0 `
-    }else if(req.query && req.query.type == '1'){
+    }else if(req.query.type == '1'){
         sql += ` where hide = 0 `
     }
     sql += ` order by orderFactor asc, updatedat desc`

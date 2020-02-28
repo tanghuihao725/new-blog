@@ -30,7 +30,7 @@ export default {
     },
     computed:{
         postDate(){
-            return this.articalData.updatedAt.split(' ')[0].replace(/-/g, '/')
+            return this.articalData.createdAt.split(' ')[0].replace(/-/g, '/')
         },
         isNew(){
             const time = new Date().getTime()

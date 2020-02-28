@@ -1,13 +1,14 @@
 <template>
   <div class="home">
-    <div class="blogs-and-resume-wrapper">
-      <div class="outer-blog-wrapper">
-        <Blogs :resumeOpen="resumeShow"/>
-      </div>
-      
-      <div class="resume-wrapper" v-show="!isMobile">
+    <div class="blogs-and-resume-wrapper" v-if="!isMobile">
+      <Blogs :resumeOpen="resumeShow"/>
+      <div class="resume-wrapper">
         <Resume :visible.sync="resumeShow"/>
       </div>
+    </div>
+    <!-- 移动端博客页 -->
+    <div class="mobile-blogs-wrapper" v-else>
+      <MobileBlogs/>
     </div>
 
     <div class="albums-introduction-wrapper">
@@ -29,6 +30,7 @@
 <script>
 import Resume from "@/components/Resume";
 import Blogs from "./Blogs/index.vue"
+import MobileBlogs from './Blogs/MobileBlogs'
 import Categories from "./Categories/index.vue"
 import AlbumsShow from "./AlbumsShow/index.vue"
 import { mapGetters } from 'vuex';
@@ -65,7 +67,7 @@ export default {
    
   },
   components: {
-    Resume, Blogs, AlbumsShow, Categories, MessagePad
+    Resume, Blogs, MobileBlogs, AlbumsShow, Categories, MessagePad
   }
 };
 </script>
@@ -76,13 +78,6 @@ export default {
   .blogs-and-resume-wrapper{
     display: flex;
     width: 100%;
-
-    .outer-blog-wrapper{
-       width: 100%;
-       display: flex;
-       margin: 0 auto;
-       justify-content: center;
-    }
   }
 
   .albums-introduction-wrapper{

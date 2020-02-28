@@ -10,6 +10,7 @@
     <nav>
       <navbar id="mynav" v-if="!navTopHide" />
     </nav>
+    
 
     <div class="router-content">
       <router-view class="content" />
@@ -18,6 +19,8 @@
     <footer v-if="!navLeftShow">
       <MyFooter />
     </footer>
+
+  
   </div>
 </template>
 
@@ -55,7 +58,7 @@ export default {
       return this.routeLogin || this.routeCategories || this.routeBlogs;
     },
     navLeftShow() {
-      return this.routeBlogs || this.routeCategories;
+      return this.routeLogin || this.routeBlogs || this.routeCategories;
     }
   },
   methods: {
@@ -83,7 +86,6 @@ html {
   background-color: #fff;
   padding: 0;
   margin: 0;
-  background: url();
 }
 footer {
   margin: 0;

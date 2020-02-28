@@ -1,8 +1,8 @@
 <template>
     <div class="login-container">
         <div class="mask"></div>
+        <myNav class="my-nav animated fadeInDown" :logoHide="true" :nowAt="5"/>
         <div class="content-wrapper">
-            <myNav class="my-nav animated fadeInDown" :logoHide="true"/>
             <div class="content-body">
                 <div class="body-left animated fadeInLeft" v-if="!isMobile">
                     <p class="sub-title">Welcome to THH's Blog</p>
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import loginNav from './LoginNav'
 import myNav from '@/components/Nav/navTop'
 import loginer from './Loginer'
 import { mapGetters } from 'vuex'
@@ -30,7 +29,7 @@ export default {
         }
     },
     components:{
-        loginNav, loginer,myNav
+        loginer,myNav
     }
 }
 </script>
@@ -40,10 +39,8 @@ export default {
     width: 100vw;
     margin: 0 auto;
     height: 100vh;
-    display: flex;
     background: url(../../assets/img/common/geernika.jpg);
     background-size: 100% 100%;
-    justify-content: center;
 
     .mask{
         position: absolute;
@@ -54,6 +51,7 @@ export default {
     }
 
     .content-wrapper{
+        margin: 0 auto;
         width: 80%;
         height: 100%;
         z-index: 1;
@@ -89,9 +87,14 @@ export default {
                 animation-duration: 0.3;
                 animation-delay: 0.2s;
             }
-        }
-        
+        }   
     }
-    
+}
+
+.rootMobile{
+    .login-container{
+        background-size: auto 100%;
+        background-position: -30%;
+    }
 }
 </style>

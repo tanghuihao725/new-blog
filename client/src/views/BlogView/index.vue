@@ -22,7 +22,7 @@
     </nav>
     <div class="blog-view-container">
       <div class="content-container">
-        <ReadMoreButton v-if="isMobile" @click="handleGoBack">返回</ReadMoreButton>
+        <ReadMoreButton v-if="isMobile" @click="handleGoBack" style="fontSize:0.8em;marginBottom:2em;">返回</ReadMoreButton>
         <div class="cover-image-wrapper" v-if="blogContent.coverImage">
           <img :src="blogContent.coverImage" class="cover-image" />
         </div>

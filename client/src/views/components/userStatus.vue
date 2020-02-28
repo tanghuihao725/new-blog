@@ -8,7 +8,7 @@
         <div class="dropdown-wrapper">
           <el-dropdown size="small" @command="handleCommand">
             <span :class="nicknameConfigs.classes">
-              <span class="prefix">{{nicknameConfigs.prefix}}</span>
+              <span class="prefix" v-if="!isMobile">{{nicknameConfigs.prefix}}</span>
               {{userCurrent.nickname || userCurrent.telephone}}
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -39,6 +39,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['isMobile']),
     ...mapGetters("user", ["userCurrent", "isLogin"]),
     nicknameConfigs(){
       const classes = { nickname: true }

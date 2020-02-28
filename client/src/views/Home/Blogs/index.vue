@@ -1,33 +1,31 @@
 <template>
-  <div class="blogs-container">
-    <div class="blogs-wrapper">
-      <div class="blogs-with-cover-img">
-        <el-carousel
-          indicator-position="outside"
-          height="710px"
-          :autoplay="false"
-          :arrow="arrowAppear"
-        >
-          <el-carousel-item v-for="blog in blogsWithCoverImage" :key="blog.id">
-            <BlogCard :blogContent="blog" />
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-
-      <div
-        class="blogs-without-cover-img animated"
-        :style="{ width: resumeOpen ? '' : '260px', transform: resumeOpen ? '' : 'translateX(-10%)'}"
+  <div class="blogs-wrapper">
+    <div class="blogs-with-cover-img">
+      <el-carousel
+        indicator-position="outside"
+        height="710px"
+        :autoplay="false"
+        :arrow="arrowAppear"
       >
-        <BlogCard
-          class="blog-card animated hide animate1"
-          v-for="blog in blogsWithoutCoverImage"
-          :key="blog.id"
-          :blogContent="blog"
-        />
+        <el-carousel-item v-for="blog in blogsWithCoverImage" :key="blog.id">
+          <BlogCard :blogContent="blog" />
+        </el-carousel-item>
+      </el-carousel>
+    </div>
 
-        <div class="read-all-button hide animated animate1" >
-          <ReadMoreButton @click="routeToAllBlogs">All Articals ...</ReadMoreButton>
-        </div>
+    <div
+      class="blogs-without-cover-img animated"
+      :style="{ width: resumeOpen ? '' : '260px', transform: resumeOpen ? '' : 'translateX(-10%)'}"
+    >
+      <BlogCard
+        class="blog-card animated hide animate1"
+        v-for="blog in blogsWithoutCoverImage"
+        :key="blog.id"
+        :blogContent="blog"
+      />
+
+      <div class="read-all-button hide animated animate1">
+        <ReadMoreButton @click="routeToAllBlogs">All Articals ...</ReadMoreButton>
       </div>
     </div>
   </div>
@@ -53,8 +51,8 @@ export default {
   computed: {
     ...mapGetters("content/blogs", ["blogs"]),
     blogsWithCoverImage() {
-      // 三条图文博客
-      return this.blogs.filter(blog => !!blog.coverImage).slice(0, 3);
+      // 3条图文博客
+      return this.blogs.filter(blog => !!blog.coverImage).slice(0, 5);
     },
     blogsWithoutCoverImage() {
       // 三条不带图文博客
@@ -66,7 +64,7 @@ export default {
     }
   },
   mounted() {
-    this.refreshBlogs().then(() => {});
+    this.refreshBlogs()
   },
   watch: {
     resumeOpen(val) {
@@ -87,8 +85,8 @@ export default {
     handleAllBlogsClicked() {
       this.$router.push("/categories");
     },
-    routeToAllBlogs(){
-      this.$router.push('/blogs') 
+    routeToAllBlogs() {
+      this.$router.push("/blogs");
     }
   },
 
@@ -100,24 +98,21 @@ export default {
 </script>
 
 <style lang="less">
-.blogs-container {
-  transition: all 3s;
-  margin-bottom: 60px;
-}
-
 .blogs-wrapper {
-  padding: 20px 30px;
-  transition: all 3s;
-  // width: 100%;
+  // border: 1px solid red;
+  margin-bottom: 60px;
+  padding: 1.25em 0;
   // 设置响应式字体
   font-size: 16px;
+  width: 100%;
   max-width: 1600px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-
+ 
   .blogs-with-cover-img {
     width: 1000px;
+    // border: 1px solid green;
 
     .el-carousel__arrow {
       height: 70px;
@@ -142,7 +137,7 @@ export default {
     }
   }
   .blogs-without-cover-img {
-    // border: 1px solid red;
+    // border: 1px solid blue;
     display: flex;
     flex-wrap: wrap;
     max-width: 780px;
@@ -162,6 +157,17 @@ export default {
       font-size: 12px;
       animation-delay: 1s;
       margin-right: 9px;
+    }
+  }
+}
+</style>
+
+<style lang="less" scoped>
+.rootMobile {
+  .blogs-wrapper{
+    padding: 0;
+    .blogs-with-cover-img{
+      width: 100%;
     }
   }
 }
