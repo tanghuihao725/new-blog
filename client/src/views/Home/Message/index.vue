@@ -45,14 +45,14 @@ export default {
   methods: {
     ...mapActions("content/messages", ["fetchMessages"]),
     refreshMessages(type = 1, addAnimation = true) {
-      this.loading = true;
+      // this.loading = true;
       return this.fetchMessages({ type }).then(res => {
-        this.loading = false;
         this.messagesList = res.data;
+        // this.loading = false;
         if (!addAnimation) return;
         setTimeout(() => {
           this.addAnimationForMessages();
-        }, 200);
+        }, 0);
       });
     },
     handlePadClick(type) {

@@ -23,7 +23,9 @@
       <p class="division-line"></p>
     </div>
 
-    <router-link class="all-articals" to="/blogs">View All</router-link>
+    <div style="textAlign:center">
+      <ReadMoreButton @click="routerTo(blog)">All Articles ({{total}})</ReadMoreButton>
+    </div>
   </div>
 </template>
 
@@ -36,7 +38,7 @@ import Tag from "@/components/Tags/Tag";
 
 export default {
   computed: {
-    ...mapGetters("content/blogs", ["blogs"])
+    ...mapGetters("content/blogs", ["blogs","total"])
   },
   methods: {
     ...mapActions("content/blogs", ["fetchBlogs"]),

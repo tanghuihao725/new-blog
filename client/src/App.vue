@@ -100,6 +100,7 @@ html {
   background-color: #fff;
   padding: 0;
   margin: 0;
+  overflow-x: hidden;
 }
 footer {
   margin: 0;

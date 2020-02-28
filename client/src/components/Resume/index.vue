@@ -284,16 +284,16 @@ export default {
         }
       }
       .avatar-wrapper {
-        width: 6em;
-        height: 6em;
+        width: 12em;
+        height: 12em;
         display: flex;
         justify-content: center;
         align-items: center;
         margin: 0 auto;
         position: relative;
         .avatar {
-          width: 4em;
-          height: 4em;
+          width: 6em;
+          height: 6em;
           border-radius: 50%;
           transition: all 0.3s;
         }
