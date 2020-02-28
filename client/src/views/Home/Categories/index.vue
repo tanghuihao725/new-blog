@@ -57,7 +57,7 @@ export default {
     }
   },
   mounted() {
-    const query = { type: "0" };
+    const query = { type: 0 };
     this.fetchAlbums(query);
   },
   methods: {

@@ -9,7 +9,7 @@
         <form class="form" v-if="tab===0">
           <div class="form-item">
             <span>Telephone Number:</span>
-            <input v-model="registerForm.telephone" type="number" autocomplete="off" />
+            <input v-model="registerForm.telephone" type="number" autocomplete="off" autofocus/>
           </div>
           <div class="form-item">
             <span>Password:</span>
@@ -32,7 +32,7 @@
         <form v-else>
           <div class="form-item">
             <span>Telephone Number:</span>
-            <input v-model="loginForm.telephone" type="number" />
+            <input v-model="loginForm.telephone" type="number" autofocus/>
           </div>
           <div class="form-item">
             <span>Password:</span>

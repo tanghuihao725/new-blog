@@ -97,7 +97,7 @@ router.post('/query', (req, res) => {
     sql += `
         order by 
         ${TABLENAME}.orderFactor asc,
-        ${TABLENAME}.updatedAt desc `
+        ${TABLENAME}.createdAt desc `
 
     db.connect(sql)
         .then(data => {

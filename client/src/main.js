@@ -15,18 +15,16 @@ import 'mavon-editor/dist/css/index.css'
 import './assets/less/myAnimation.css'
 import './assets/less/animate.mini.css'
 
-// Bmob
-// import Bmob from 'hydrogen-js-sdk'
 
 Vue.config.productionTip = false
 // Vue.use(ElementUI)
 
 Vue.use(mavonEditor)
 
-// Bmob
-// Bmob.initialize('ac49817a1802b4ff','920725','687925cf8424c526aac1fc7f22a7b622')
-// Vue.prototype.Bmob = Bmob
-// Bmob.User.login('tanghuihao','mipiacenon')
+router.afterEach((to, from, next) => {
+  window.scrollTo(0, 0);
+});
+
 
 new Vue({
   router,

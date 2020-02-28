@@ -58,7 +58,7 @@ router.get('/query', (req, res) => {
     if (type == '0' || type == '2') {
         sql += ` order by orderFactor asc, updatedat desc `
     } else {
-        sql += `order by updatedat desc`
+        sql += `order by createdAt desc`
     }
     db.connect(`select count(id) as total from ${TABLENAME}`)
         .then(totalData => {

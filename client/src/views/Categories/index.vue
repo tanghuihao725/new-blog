@@ -61,7 +61,8 @@ export default {
     },
     freshAlbums() {
       const param = {};
-      if (this.userCurrent && this.userCurrent.authority < 5) {
+      console.log(this.userCurrent)
+      if (!this.userCurrent.authority || this.userCurrent.authority < 5) {
         param.type = 1;
       }
       this.fetchAlbums(param);

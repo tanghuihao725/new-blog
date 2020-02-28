@@ -11,9 +11,8 @@
 
           <span class="label-container" v-if="!baseInfo.isMobile">
             <Album :albumData="albumData" />
-            <span v-if="blogContent.tagDetails">
-              <Tag v-for="tag in blogContent.tagDetails.slice(0,1)" :key="tag.id" :tagData="tag" />
-              <span style="color:#666">...</span>
+            <span v-if="withCoverImage && blogContent.tagDetails">
+              <Tag v-for="tag in blogContent.tagDetails.slice(0,3)" :key="tag.id" :tagData="tag" />
             </span>
           </span>
         </div>
@@ -146,17 +145,22 @@ export default {
         }
       }
       .blog-body {
-        height: 7.9em;
-        overflow: hidden;
+        height: 7.8em;
+        // overflow: hidden;
         color: #666;
         font-size: 0.9em;
         line-height: 1.3em;
         font-weight: 200;
-        word-wrap: break-word;
-        text-indent: 2em;
+        // word-wrap: break-word;
+        // text-indent: 2em;
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 6; //想要的行数
+        -webkit-box-orient: vertical;
         .desc-para {
           margin: 0.45em 0;
-          // text-indent: 2em;
         }
       }
       .read-more-wrapper {

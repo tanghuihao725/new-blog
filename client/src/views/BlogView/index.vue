@@ -118,11 +118,10 @@ export default {
       });
   },
   updated() {
-    const imgs = document.querySelectorAll("img");
-    imgs.forEach(img => {
+    document.querySelectorAll("img").forEach(img => {
       img.style.maxWidth = "80%";
       img.style.maxHeight = "400px";
-      img.style.margin = "1.5em 0 1.5em 5em"
+      if(!this.isMobile) img.style.margin = "1.5em 0 1.5em 5em";
     });
     document.querySelector(".v-show-content").style.backgroundColor = "#fff";
     document.querySelectorAll("p").forEach(p => {
