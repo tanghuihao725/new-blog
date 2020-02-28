@@ -1,5 +1,9 @@
 <template>
   <div class="categories-wrapper">
+    <ReadMoreButton @click="handleViewAllClick" v-if="isMobile" style="marginTop:2em">
+      All Albums
+      <i class="el-icon-right"></i>
+    </ReadMoreButton>
     <div class="album-lists-wrapper">
       <ListItem
         v-for="item in albumList"
@@ -29,8 +33,11 @@
       </div>
     </div>
 
-    <div class="more-button-wrapper animate4 hide">
-        <ReadMoreButton @click="handleViewAllClick">View All <i class="el-icon-right"></i></ReadMoreButton>
+    <div class="more-button-wrapper animate4 hide" v-if="!isMobile">
+      <ReadMoreButton @click="handleViewAllClick">
+        View All
+        <i class="el-icon-right"></i>
+      </ReadMoreButton>
     </div>
   </div>
 </template>
@@ -40,10 +47,11 @@
 import { mapActions, mapGetters } from "vuex";
 import ListItem from "./ListItem";
 import HoverImage from "@/components/HoverImage";
-import ReadMoreButton from "@/components/Buttons/ReadMoreButton"
+import ReadMoreButton from "@/components/Buttons/ReadMoreButton";
 
 export default {
   computed: {
+    ...mapGetters(["isMobile"]),
     ...mapGetters("content/albums", ["albums"]),
     ...mapGetters("content/blogs", ["blogsByAlbum"]),
     // 主要专辑
@@ -68,8 +76,8 @@ export default {
         query: { id: albumId }
       });
     },
-    handleViewAllClick(){
-        this.$router.push("/categories")
+    handleViewAllClick() {
+      this.$router.push("/categories");
     }
   },
   components: {
@@ -119,9 +127,60 @@ export default {
     }
   }
 
-  .more-button-wrapper{
-      width: 10%;
+  .more-button-wrapper {
+    width: 10%;
+    font-size: 0.9em;
+  }
+}
+</style>
+
+<style lang="less" scoped>
+.rootMobile {
+  .hide {
+    visibility: visible;
+  }
+
+  .categories-wrapper {
+    width: 90%;
+    height: 100%;
+    padding: 3em 5%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+
+    .album-lists-wrapper {
+      width: 90%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      .list-item {
+        margin: 5px 0;
+      }
+    }
+    .main-album-wrapper {
+      width: 100%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .main-album-hover-image {
+        width: 100%;
+        height: 100%;
+        margin: 2em 0;
+      }
+      .over-all-title {
+        margin: 0em auto;
+        font-size: 1.5em;
+      }
+    }
+
+    .more-button-wrapper {
+      width: 30%;
+      margin: 1em 0;
       font-size: 0.9em;
+    }
   }
 }
 </style>

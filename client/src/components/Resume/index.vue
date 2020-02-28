@@ -52,7 +52,7 @@
           </ReadMoreButton>
         </div>
 
-        <div class="outer-link" v-if="details">
+        <div class="outer-link" v-if="details & !isMobile">
           <p class="outer-link-tip">外部链接：</p>
           <ReadMoreButton
             class="outer-link-button"
@@ -65,7 +65,7 @@
           </ReadMoreButton>
         </div>
 
-        <div class="outer-link" v-if="details">
+        <div class="outer-link" v-if="details && !isMobile">
           <p class="outer-link-tip">友情链接：</p>
           <ReadMoreButton
             class="outer-link-button"
@@ -90,7 +90,7 @@
 
 <script>
 import ReadMoreButton from "@/components/Buttons/ReadMoreButton";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {
@@ -105,6 +105,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['isMobile']),
     details() {
       if (!this.selfInfo.details) return null;
       return JSON.parse(this.selfInfo.details);
@@ -174,15 +175,8 @@ export default {
     .avatar-relative-wrapper:hover {
       .avatar-wrapper:after {
         transform: rotate(1800deg);
-        // visibility: visible;
         opacity: 1;
         animation: my-rotate 5s linear infinite;
-      }
-      .avatar-wrapper {
-        .avatar {
-          width: 8.3em;
-          height: 8.3em;
-        }
       }
     }
     .avatar-wrapper {
@@ -267,6 +261,98 @@ export default {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+</style>
+
+<style lang="less" scoped>
+.rootMobile {
+  .resume-container {
+    width: 100%;
+    max-width: 100%;
+    height: 80%;
+    font-size: 14px;
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .avatar-relative-wrapper:hover {
+        .avatar-wrapper:after {
+          transform: rotate(1800deg);
+          opacity: 1;
+          animation: my-rotate 5s linear infinite;
+        }
+      }
+      .avatar-wrapper {
+        width: 6em;
+        height: 6em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        position: relative;
+        .avatar {
+          width: 4em;
+          height: 4em;
+          border-radius: 50%;
+          transition: all 0.3s;
+        }
+      }
+      .avatar-wrapper:after {
+        content: "";
+        background: url(../../assets/img/avatar-bg.png);
+        background-size: 100% 100%;
+        position: absolute;
+        top: 0px;
+        left: 0;
+        animation: my-rotate 10s linear infinite;
+        transform: opacity 2s;
+        width: 100%;
+        height: 100%;
+        opacity: 0.7;
+      }
+      .nick-name {
+        text-align: center;
+        font-weight: 400;
+        margin: 0.2em 0;
+        color: #000;
+      }
+      .school-company {
+        text-align: center;
+        font-size: 12px;
+        span,
+        i {
+          margin-right: 5px;
+          font-size: 0.8em;
+          color: #333;
+        }
+      }
+      .self-description {
+        margin: 10px 20%;
+        font-size: 0.8em;
+        text-align: center;
+        color: #333;
+        p {
+          text-indent: 2em;
+          margin: 0.1em 0;
+          color: #444;
+        }
+      }
+      .button-wrapper {
+        text-align: right;
+        font-size: 0.8em;
+      }
+      .outer-link {
+        text-align: center;
+        font-size: 0.8em;
+        color: #333;
+
+        .outer-link-button {
+          margin: 0 2px;
+          border-radius: 10px;
+        }
+      }
+    }
   }
 }
 </style>

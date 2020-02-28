@@ -24,8 +24,8 @@
       </span>
     </div>
     <div class="nav-body" v-if="getDetails.blogPage">
-      <h1>{{navData.title || 'THHsBlog'}}</h1>
-      <h2>{{navData.description || getDetails.blogPage.description}}</h2>
+      <h1 v-if="!isMobile">{{navData.title || 'THHsBlog'}}</h1>
+      <h2 v-if="!isMobile">{{navData.description || getDetails.blogPage.description}}</h2>
       <div class="nav-content-wrapper">
         <slot />
       </div>
@@ -167,22 +167,14 @@ export default {
   .navLeftContainer {
     font-size: 3vw;
     width: 100%;
-    height: 18vh;
+    height: 15vh;
     background-color: orange;
     
   }
-  .nav-body {
-    align-items: center;
-    h1{
-      font-size: 2em;
-    }
-    h2{
-      font-size: 1.2em;
-    }
-    h1,h2{
-      margin: 0;
-      padding:0
-    }
+  .top-nav{
+    margin-left: 1em;
+    font-size: 1.6em;
   }
+
 }
 </style>

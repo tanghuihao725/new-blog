@@ -9,6 +9,7 @@
         v-model="form.contact"
         placeholder="如果您想留下联系方式"
         @keydown.enter="handleSubmit"
+        v-if="!isMobile"
       />
 
       <div class="switch-wrapper">
@@ -38,6 +39,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['isMobile']),
     ...mapGetters("user", ["userCurrent", "isLogin"])
   },
   mounted() {
@@ -63,15 +65,13 @@ export default {
       if (!data.body) return;
       // 缓存数据
       if (!this.isLogin) {
-        if (this.form.nickname)
-          localStorage.tempNickname = this.form.nickname;
-        if (this.form.contact)
-          localStorage.tempContact = this.form.contact;
+        if (this.form.nickname) localStorage.tempNickname = this.form.nickname;
+        if (this.form.contact) localStorage.tempContact = this.form.contact;
       }
       data.hide = Boolean(data.hide);
       this.createMessage(data)
         .then(() => {
-          if(!this.form.hide) this.$emit("success");
+          if (!this.form.hide) this.$emit("success");
           this.formClear();
         })
         .catch(err => {
@@ -149,6 +149,41 @@ export default {
     }
     .send-button {
       height: 80%;
+    }
+  }
+}
+</style>
+
+<style lang="less" scoped>
+.rootMobile {
+  .text-area-contianer {
+    font-size: 12px;
+    .button-group {
+      width: 100%;
+      height: 50px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+
+      .nick-name {
+        width: 7em;
+      }
+      .contact-me {
+        width: 12em;
+      }
+      .switch-wrapper {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        .tip {
+          font-size: 0.8em;
+          margin: 0 2px;
+        }
+      }
+      .send-button {
+        height: 80%;
+      }
     }
   }
 }

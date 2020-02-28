@@ -1,6 +1,6 @@
 <template>
   <div class="my-footer-container">
-    <div class="body-content" v-if="footerData && contactMeData">
+    <div class="body-content" v-if="footerData && contactMeData ">
       <div class="body-left">
         <h3>About the Site：</h3>
         <h4>{{footerData.siteDescTitle}}</h4>
@@ -16,6 +16,7 @@
         </h4>
       </div>
     </div>
+
     <el-divider content-position="right">THH's Blog</el-divider>
     <div class="bottom-wrapper" v-if="getDetails.beian">
       <a class="beian-link" :href="getDetails.beian.path">{{getDetails.beian.content}}</a>
@@ -28,6 +29,7 @@
 import { mapGetters } from "vuex";
 export default {
   computed: {
+    ...mapGetters(["isMobile"]),
     ...mapGetters("user/userManagement", ["getDetails"]),
     footerData() {
       return this.getDetails.homePage;
@@ -92,8 +94,8 @@ export default {
       color: #666;
       font-size: 0.9em;
     }
-    a:hover{
-        color: blue;
+    a:hover {
+      color: blue;
     }
   }
 }
@@ -103,5 +105,28 @@ export default {
 .el-divider__text {
   border-radius: 5px;
   color: #f20;
+}
+</style>
+
+<style lang="less" scoped>
+.rootMobile {
+  font-size: 12px;
+  .my-footer-container {
+    height: 100%;
+    padding: 1em 0;
+    .body-content {
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      .body-left {
+        width: 100%;
+        padding-left: 2em;
+        border: none;
+      }
+      .body-right {
+        width: 100%;
+      }
+    }
+  }
 }
 </style>

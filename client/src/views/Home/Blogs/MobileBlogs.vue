@@ -3,7 +3,7 @@
     <div class="blog-item-list animated fadeInRight" v-for="blog in blogs" :key="blog.id">
       <div class="blog-content">
         <div class="content-text">
-          <h1 class="blog-title">
+          <h1 class="blog-title" @click="routerTo(blog)">
             {{blog.title}}
             <span v-if="blog.orderFactor <= 10" style="fontSize:0.8em;color:red;">top!</span>
           </h1>
@@ -20,7 +20,10 @@
         </span>
         <ReadMoreButton @click="routerTo(blog)">More</ReadMoreButton>
       </span>
+      <p class="division-line"></p>
     </div>
+
+    <router-link class="all-articals" to="/blogs">View All</router-link>
   </div>
 </template>
 
@@ -77,7 +80,6 @@ export default {
   
   .blog-item-list {
     padding: 1em 1em;
-    // border-bottom: 2px solid #666;
     .blog-content {
       display: flex;
       align-items: center;
@@ -109,6 +111,20 @@ export default {
           margin-left: 1em;
       }
     }
+    .division-line{
+        width: 90%;
+        display: block;
+        text-align: center;
+        margin: 2em auto;
+        // border: 0.5px solid rgba(255 , 255, 255, 0.7);
+        border-top: 1px solid #999;
+    }
+  }
+  .all-articals{
+      display: block;
+      text-align: center;
+      color: #f20;
+      text-decoration: underline;
   }
 }
 </style>

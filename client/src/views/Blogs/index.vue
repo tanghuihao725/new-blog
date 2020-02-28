@@ -222,7 +222,7 @@ export default {
       display: flex;
       justify-content: space-around;
     }
-
+    
     .categories-blogs-content {
       margin-top: 0vh;
       padding: 1em 1em;

@@ -8,7 +8,7 @@
   }"
   >
     <nav>
-      <navbar id="mynav" v-if="!navTopHide" />
+      <navbar id="mynav" v-if="!navTopHide" :nowAt="nowAt"/>
     </nav>
     
 
@@ -45,6 +45,16 @@ export default {
   computed: {
     ...mapGetters(["isMobile"]),
     ...mapGetters("user", ["getUserDialogStatu"]),
+    nowAt(){
+      switch(this.$route.path){
+        case '/':
+          return 1
+        case '/about':
+          return 3
+        default:
+          return 1
+      }
+    },
     routeLogin() {
       return this.$route.path.indexOf("login") >= 0;
     },
@@ -53,6 +63,10 @@ export default {
     },
     routeBlogs() {
       return this.$route.path.indexOf("blog") >= 0;
+    },
+    routeAbout(){
+      this.nowAt = 3
+      return this.$route.path.indexOf("about") >= 0
     },
     navTopHide() {
       return this.routeLogin || this.routeCategories || this.routeBlogs;

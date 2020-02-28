@@ -3,7 +3,7 @@
     <nav v-if="!isMobile">
       <navLeft :navData="navData">
         <div class="label-wrapper">
-          <Album :albumData="albumData" size="small" />
+          <Album :albumData="albumData" size="mini" />
           <Tag v-for="tag in blogContent.tagDetails" :key="tag.id" :tagData="tag" size="small" />
         </div>
         <p class="blog-time">
@@ -22,7 +22,16 @@
     </nav>
     <div class="blog-view-container">
       <div class="content-container">
-        <ReadMoreButton v-if="isMobile" @click="handleGoBack" style="fontSize:0.8em;marginBottom:2em;">返回</ReadMoreButton>
+
+       <span class='up-content' v-if="isMobile">
+        <ReadMoreButton
+          @click="handleGoBack"
+          style="fontSize:0.8em;margin:0 0.5em 2em 0;"
+        >BACK</ReadMoreButton>
+        <Album :albumData="albumData" size="small" />
+        <Tag v-for="tag in blogContent.tagDetails" :key="tag.id" :tagData="tag" size="small" />
+      </span> 
+        
         <div class="cover-image-wrapper" v-if="blogContent.coverImage">
           <img :src="blogContent.coverImage" class="cover-image" />
         </div>
@@ -33,14 +42,11 @@
             <span class="created-at">发布于: {{ createdTime }}</span>
             <span v-if="updatedTime">于{{ updatedTime }} 编辑</span>
           </p>
-          <div class="label-wrapper">
-            <Album :albumData="albumData" size="small" />
-            <Tag v-for="tag in blogContent.tagDetails" :key="tag.id" :tagData="tag" size="small" />
-          </div>
         </div>
 
         <div class="body-container">
           <mavon-editor
+            style="width: 100%"
             class="mavon-wrapper"
             defaultOpen="preview"
             :value="blogContent.body || ''"
@@ -121,7 +127,7 @@ export default {
     document.querySelectorAll("img").forEach(img => {
       img.style.maxWidth = "80%";
       img.style.maxHeight = "400px";
-      if(!this.isMobile) img.style.margin = "1.5em 0 1.5em 5em";
+      if (!this.isMobile) img.style.margin = "1.5em 0 1.5em 5em";
     });
     document.querySelector(".v-show-content").style.backgroundColor = "#fff";
     document.querySelectorAll("p").forEach(p => {
@@ -186,7 +192,13 @@ export default {
     .title-container {
       text-align: center;
       .blog-title {
-        font-size: 2em;
+        font-size: 1.5em !important;
+        text-indent: 0 !important;
+      }
+      .blog-time {
+        font-size: 0.8em !important;
+        color: #666 !important;
+        text-indent: 0 !important;
       }
       .label-wrapper {
         font-size: 16px;

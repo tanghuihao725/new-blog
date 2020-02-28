@@ -49,10 +49,10 @@ export default {
       return this.fetchMessages({ type }).then(res => {
         this.loading = false;
         this.messagesList = res.data;
-        if(!addAnimation) return
-        setTimeout(()=>{
-            this.addAnimationForMessages()
-        },200)
+        if (!addAnimation) return;
+        setTimeout(() => {
+          this.addAnimationForMessages();
+        }, 200);
       });
     },
     handlePadClick(type) {
@@ -153,6 +153,70 @@ export default {
       .no-data-tip {
         color: #666;
         margin: 3em 0;
+      }
+    }
+  }
+}
+</style>
+
+<style lang="less" scoped>
+.rootMobile {
+  .hide{
+    visibility: visible;
+  }
+  .message-pad-wrapper {
+    font-size: 12px;
+    width: 90%;
+    height: auto;
+    border-radius: 10px;
+    margin: 5em 0;
+    display: flex;
+    flex-direction: column;
+
+    .message-pad {
+      background-color: #fff;
+    }
+
+    .pad-left {
+      width: 100%;
+      height: 100%;
+    }
+    .pad-list-wrapper {
+      width: 100%;
+      
+      .tab-wrapper {
+        text-align: center;
+        font-size: 0.9em;
+        color: #666;
+        margin-top: 15px;
+        span {
+          margin-right: 20px;
+          padding: 2px 5px;
+          cursor: pointer;
+        }
+        .active {
+          color: #f20;
+          border-bottom: 2px solid #f20;
+        }
+      }
+      .messages-list-wrapper {
+        padding: 2em 5%;
+        width: 90%;
+        height: 85%;
+        margin-top: 3%;
+
+        .message-list {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          .list-item {
+            margin-top: 5px;
+          }
+        }
+        .no-data-tip {
+          color: #666;
+          margin: 3em 0;
+        }
       }
     }
   }

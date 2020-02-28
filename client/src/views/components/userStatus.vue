@@ -20,6 +20,7 @@
           </el-dropdown>
         </div>
       </div>
+      <span v-else style="fontSize:0.8em;color:#fff">Welcome to THHsBlog</span>
       <!-- <el-button type="default" class="not-log-in" @click="handleLoginClick" size="mini" v-if="!isLogin">
         <i class="el-icon-user-solid"></i>Log In
       </el-button> -->
