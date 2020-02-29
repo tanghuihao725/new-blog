@@ -1,6 +1,6 @@
 <template>
   <div class="albums-show-container">
-    <div class="title">
+    <div class="title" v-if="isMobile">
       <HeadLine>Know Me</HeadLine>
     </div>
     <div class="hover-image-wrapper">
@@ -27,6 +27,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['isMobile']),
     imgData() {
       const { psPic, psPicTitle, psPicWords } = this.psData;
       return { psPic, psPicTitle, psPicWords };
