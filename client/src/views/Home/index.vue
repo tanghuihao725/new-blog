@@ -55,9 +55,8 @@ export default {
     }
   },
   mounted() {
-    if (!this.isMobile) {
       scorllListener();
-    }
+    
   },
   destroyed() {
     // 如果离开组件，那么将滚轮监听事件给取消
@@ -144,9 +143,9 @@ export default {
   .home {
     overflow-x: hidden; 
     .categories-container,
-    .message-pad-container {
+    .message-pad-container,
+    .albums-introduction-wrapper  {
       height: auto;
-     
     }
   }
 }

@@ -1,15 +1,6 @@
 
 
 export default function () {
-    // window.onload = () => {
-    /**
-     * 获取元素, 设立count计数器，来节约性能, 计算锚点
-     */
-
-
-
-
-
     // 建立监听函数
     window.onscroll = function () {
         const a = document.documentElement.scrollTop || document.body.scrollTop; //滚动条y轴上的距离
@@ -17,7 +8,7 @@ export default function () {
         const c = document.documentElement.scrollHeight || document.body.scrollHeight; //可视化的高度与溢出的距离（总高度）
 
         // 小篇幅blog的入场动画
-        let count1 = 1, smallBlogsWrapper = document.querySelectorAll(".blogs-without-cover-img")[0];
+        let smallBlogsWrapper = document.querySelectorAll(".blogs-without-cover-img")[0];
         // 个人简历的固定不动
         const navHeight = document.querySelector("#mynav").clientHeight
         const resumeContainer = document.querySelector(".resume-wrapper")
@@ -80,9 +71,6 @@ export default function () {
             messagePadEntrance()
         }
     };
-    // }
-
-
 }
 
 

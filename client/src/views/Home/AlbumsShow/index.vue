@@ -1,5 +1,8 @@
 <template>
   <div class="albums-show-container">
+    <div class="title">
+      <HeadLine>Know Me</HeadLine>
+    </div>
     <div class="hover-image-wrapper">
       <hoverImage class="hover-image" :imgData="imgData" />
     </div>
@@ -14,7 +17,8 @@
 
 <script>
 import hoverImage from "@/components/HoverImage";
-import { mapGetters } from 'vuex';
+import HeadLine from "@/components/HeadLine";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -34,7 +38,8 @@ export default {
     }
   },
   components: {
-    hoverImage
+    hoverImage,
+    HeadLine
   }
 };
 </script>
@@ -78,15 +83,18 @@ export default {
 
 <style lang="less" scoped>
 .rootMobile {
-  .hide{
-      visibility: visible;
+  .hide {
+    visibility: visible;
   }
   .albums-show-container {
     width: 100%;
     height: auto;
     flex-direction: column;
+    box-sizing: border-box;
     font-size: 14px;
-  
+    // background-color: #ac4143;
+    border: 5px dotted #ac4143;
+
     .hover-image-wrapper {
       width: 100%;
     }

@@ -39,8 +39,10 @@ export default {
   mounted() {
     // 根据localStorage的值获取用户信息
     this.initCurrent();
-    // 开始入场动画
-    this.animationShow = true;
+    // 需要在手机端默认x轴禁止滚动，否则页面会左右移动
+    if(this.isMobile){
+      document.querySelector('html').style.overflowX = 'hidden'
+    }
   },
   computed: {
     ...mapGetters(["isMobile"]),
@@ -86,12 +88,6 @@ export default {
 };
 </script>
 
-
-
-
-
-
-
 <style lang="less">
 // 全局样式
 
@@ -100,7 +96,6 @@ html {
   background-color: #fff;
   padding: 0;
   margin: 0;
-  overflow-x: hidden;
 }
 footer {
   margin: 0;
