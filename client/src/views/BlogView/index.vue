@@ -22,16 +22,12 @@
     </nav>
     <div class="blog-view-container">
       <div class="content-container">
+        <span class="up-content" v-if="isMobile">
+          <ReadMoreButton @click="handleGoBack" style="fontSize:0.8em;margin:0 0.5em 2em 0;">BACK</ReadMoreButton>
+          <Album :albumData="albumData" size="small" />
+          <Tag v-for="tag in blogContent.tagDetails" :key="tag.id" :tagData="tag" size="small" />
+        </span>
 
-       <span class='up-content' v-if="isMobile">
-        <ReadMoreButton
-          @click="handleGoBack"
-          style="fontSize:0.8em;margin:0 0.5em 2em 0;"
-        >BACK</ReadMoreButton>
-        <Album :albumData="albumData" size="small" />
-        <Tag v-for="tag in blogContent.tagDetails" :key="tag.id" :tagData="tag" size="small" />
-      </span> 
-        
         <div class="cover-image-wrapper" v-if="blogContent.coverImage">
           <img :src="blogContent.coverImage" class="cover-image" />
         </div>
@@ -104,6 +100,29 @@ export default {
     },
     handleGoBack() {
       this.$router.back(-1);
+    },
+    styleJustify() {
+      document.querySelectorAll("img").forEach(img => {
+        img.style.maxWidth = "80%";
+        img.style.maxHeight = "400px";
+        if (!this.isMobile) img.style.margin = "1.5em 0 1.5em 5em";
+      });
+      document.querySelector(".v-show-content").style.backgroundColor = "#fff";
+      document.querySelectorAll(".body-container p").forEach(p => {
+        p.style.textIndent = "2em";
+        p.style.fontSize = "1em";
+        p.style.margin = "1em 0";
+      });
+      document
+        .querySelectorAll(
+          ".body-container h1,.body-container h2,.body-container h3"
+        )
+        .forEach(h => {
+          h.style.margin = "2em 0";
+        });
+      document.querySelectorAll(".body-container blockquote").forEach(block => {
+        block.style.margin = "2em 0 5em 0";
+      });
     }
   },
   mounted() {
@@ -116,29 +135,16 @@ export default {
     })
       .then(res => {
         this.blogContent = res.data.data[0];
+        setTimeout(()=>{
+          this.styleJustify()
+        },100)
       })
       .catch(() => {
         this.$message.error({ message: "获取博客失败" });
       });
   },
   updated() {
-    document.querySelectorAll("img").forEach(img => {
-      img.style.maxWidth = "80%";
-      img.style.maxHeight = "400px";
-      if (!this.isMobile) img.style.margin = "1.5em 0 1.5em 5em";
-    });
-    document.querySelector(".v-show-content").style.backgroundColor = "#fff";
-    document.querySelectorAll(".body-container p").forEach(p => {
-      p.style.textIndent = "2em";
-      p.style.fontSize = "1em";
-      p.style.margin = "1em 0";
-    });
-    document.querySelectorAll(".body-container h1,.body-container h2,.body-container h3").forEach(h => {
-      h.style.margin = "2em 0";
-    })
-    document.querySelectorAll(".body-container blockquote").forEach(block => {
-      block.style.margin = "2em 0 5em 0"
-    })
+    this.styleJustify()
   },
   components: {
     Album,
@@ -240,7 +246,7 @@ export default {
     margin-left: 27%;
     width: 60%;
     max-width: 1000px;
-    .content-container{
+    .content-container {
       padding: 30px 4em;
     }
   }
