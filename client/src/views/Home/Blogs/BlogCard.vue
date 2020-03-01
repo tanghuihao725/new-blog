@@ -110,7 +110,7 @@ export default {
   position: relative;
   .card {
     min-height: 260px;
-
+    margin: 0 0.5em;
     .content-wrapper {
       padding: 0 0.31em;
       height: 215px;
@@ -148,7 +148,7 @@ export default {
         }
       }
       .blog-body {
-        height: 7.8em;
+        height: 6.5em;
         color: #666;
         font-size: 0.9em;
         line-height: 1.3em;
@@ -159,7 +159,7 @@ export default {
         -webkit-line-clamp: 6; //想要的行数
         -webkit-box-orient: vertical;
         .desc-para {
-          margin: 0.45em 0;
+          margin: 0em 0;
         }
       }
       .read-more-wrapper {

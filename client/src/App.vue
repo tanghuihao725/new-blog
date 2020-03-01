@@ -42,6 +42,7 @@ export default {
     // 需要在手机端默认x轴禁止滚动，否则页面会左右移动
     if(this.isMobile){
       document.querySelector('html').style.overflowX = 'hidden'
+      document.querySelector('html').style.overflowY = 'scroll'
     }
   },
   computed: {
@@ -96,7 +97,6 @@ html {
   background-color: #fff;
   padding: 0;
   margin: 0;
-  overflow-y: scroll;
 }
 footer {
   margin: 0;
@@ -106,7 +106,6 @@ body {
   padding: 0;
   scroll-behavior: smooth;
   overflow-x: hidden;
-  overflow-y: scroll;
   height: 100%;
 }
 .fade{
