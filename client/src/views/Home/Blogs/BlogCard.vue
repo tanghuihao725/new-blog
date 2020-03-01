@@ -9,7 +9,7 @@
         <div class="title-label-wrapper">
           <span class="blog-title">{{blogContent.title}}</span>
 
-          <span class="label-container" v-if="!baseInfo.isMobile">
+          <span class="label-container" v-if="!isMobile && withCoverImage">
             <Album :albumData="albumData" />
             <span v-if="withCoverImage && blogContent.tagDetails">
               <Tag v-for="tag in blogContent.tagDetails.slice(0,3)" :key="tag.id" :tagData="tag" />
@@ -30,7 +30,10 @@
         </div>
 
         <div class="read-more-wrapper">
-          <ReadMoreButton @click="handleClickButton">Read More</ReadMoreButton>
+          <div class="label-wrapper" v-if="!withCoverImage">
+            <Album :albumData="albumData" size="mini" />
+          </div>
+          <ReadMoreButton class="button" @click="handleClickButton">Read More</ReadMoreButton>
         </div>
       </div>
     </el-card>
@@ -51,14 +54,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["baseInfo"]),
+    ...mapGetters(["isMobile"]),
     withCoverImage() {
       return !!this.blogContent.coverImage;
     },
     blogContainerClasses() {
       return {
         blogCardContainer: true,
-        mobile: this.baseInfo.isMobile,
+        mobile: this.isMobile,
         withCoverImage: this.withCoverImage
       };
     },
@@ -106,15 +109,15 @@ export default {
   font-size: 12px;
   position: relative;
   .card {
-    margin: 0 0.6em;
-    // padding: 0 2em;
     min-height: 260px;
 
     .content-wrapper {
       padding: 0 0.31em;
+      height: 215px;
+      // border: 1px solid green;
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      justify-content: space-between;
       .title-label-wrapper {
         display: flex;
         flex-wrap: wrap;
@@ -146,14 +149,10 @@ export default {
       }
       .blog-body {
         height: 7.8em;
-        // overflow: hidden;
         color: #666;
         font-size: 0.9em;
         line-height: 1.3em;
         font-weight: 200;
-        // word-wrap: break-word;
-        // text-indent: 2em;
-        
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -164,9 +163,13 @@ export default {
         }
       }
       .read-more-wrapper {
-        position: absolute;
-        bottom: 1.5em;
-        right: 3em;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: flex-end;
+        justify-content: space-between;
+        width: 100%;
+        // border: 1px solid black;
+        
       }
     }
   }
@@ -185,6 +188,9 @@ export default {
         width: 100%;
         max-height: 402px;
       }
+    }
+    .content-wrapper{
+      height: 275px;
     }
   }
   .blog-body {

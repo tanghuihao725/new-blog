@@ -81,8 +81,8 @@ export default {
         likes,
         orderFactor,
         id,
-        tags,
-        album,
+        tags = "",
+        album = "",
         ...others
       } = this.defaultData;
       Object.assign(this.form, { title, views, likes, orderFactor, id, tags, album });

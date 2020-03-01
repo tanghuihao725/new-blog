@@ -82,9 +82,7 @@ export default {
     navData() {
       return {
         title: this.blogContent.title,
-        description: this.blogContent.description
-          ? this.blogContent.description.substring(0, 30)
-          : " "
+        description: " "
       };
     },
     createdTime() {
@@ -130,10 +128,17 @@ export default {
       if (!this.isMobile) img.style.margin = "1.5em 0 1.5em 5em";
     });
     document.querySelector(".v-show-content").style.backgroundColor = "#fff";
-    document.querySelectorAll("p").forEach(p => {
+    document.querySelectorAll(".body-container p").forEach(p => {
       p.style.textIndent = "2em";
       p.style.fontSize = "1em";
+      p.style.margin = "1em 0";
     });
+    document.querySelectorAll(".body-container h1,.body-container h2,.body-container h3").forEach(h => {
+      h.style.margin = "2em 0";
+    })
+    document.querySelectorAll(".body-container blockquote").forEach(block => {
+      block.style.margin = "2em 0 5em 0"
+    })
   },
   components: {
     Album,
@@ -179,7 +184,6 @@ export default {
   .content-container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 30px 1em;
     font-size: 16px;
 
     .cover-image-wrapper {
@@ -236,6 +240,9 @@ export default {
     margin-left: 27%;
     width: 60%;
     max-width: 1000px;
+    .content-container{
+      padding: 30px 4em;
+    }
   }
 }
 </style>

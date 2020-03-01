@@ -75,9 +75,9 @@ export default {
     },
     // 可外部调用,更新选中状态
     refreshChoosenListWithIds(ids) {
-      if(!ids) return
       const initMap = {};
       this.choosed = []
+      if(!ids) return
       this.albums.forEach(album => {
           initMap[album.id] = album
       })

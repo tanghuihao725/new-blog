@@ -96,6 +96,7 @@ html {
   background-color: #fff;
   padding: 0;
   margin: 0;
+  overflow-y: scroll;
 }
 footer {
   margin: 0;
@@ -105,6 +106,7 @@ body {
   padding: 0;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  overflow-y: scroll;
   height: 100%;
 }
 .fade{
