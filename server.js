@@ -49,17 +49,20 @@ app.use('/upload',upload);
 app.use('/serverImage', express.static(path.join(__dirname, 'serverImage')));
 
 
-/**
- * 老博客地址
- */
-app.use(express.static('oldBlog/dist'))
-app.use('/old',express.static(path.join(__dirname,'oldBlog/dist/index.html')))
 
 /**
  * 主页 
  */
 app.use(express.static('client/dist'))
 app.use('/',express.static(path.join(__dirname,'client/dist/index.html')))
+
+/**
+ * 老博客地址
+ */
+app.use(express.static('oldBlog/dist'))
+app.use('/old',express.static(path.join(__dirname,'oldBlog/dist/index.html')))
+
+
 app.use('*',express.static(path.join(__dirname,'client/dist/index.html')))
 
 
